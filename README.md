@@ -1,4 +1,4 @@
-![ackee|ACKategories](Resources/cover-image.png)
+![ackee|Ackee Snapshots](Resources/cover-image.png)
 
 # Ackee Snapshots
 
