@@ -1,3 +1,5 @@
+![ackee|Ackee Snapshots](Resources/cover-image.png)
+
 # Ackee Snapshots
 
 Set of extensions that we use to simplify out snapshot tests using [SnapshotTesting][snapshot-testing]
