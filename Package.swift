@@ -15,8 +15,8 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/pointfreeco/swift-snapshot-testing.git",
-            from: "1.17.4"
+            url: "https://github.com/alexey1312/SnapshotTestingHEIC",
+            from: "1.5.0"
         )
     ],
     targets: [
@@ -24,8 +24,8 @@ let package = Package(
             name: "AckeeSnapshots",
             dependencies: [
                 .product(
-                    name: "SnapshotTesting",
-                    package: "swift-snapshot-testing"
+                    name: "SnapshotTestingHEIC",
+                    package: "SnapshotTestingHEIC"
                 ),
             ]
         ),
