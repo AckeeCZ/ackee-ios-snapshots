@@ -1,4 +1,5 @@
 import SnapshotTesting
+import SnapshotTestingHEIC
 import SwiftUI
 import XCTest
 
@@ -39,6 +40,7 @@ public struct SnapshotTest {
     private let displayScale: CGFloat?
     private let contentSizes: any Collection<SnapshotContentSize>
     private let colorSchemes: any Collection<SnapshotColorScheme>
+    private let fileFormat: SnapshotFileFormat
 
     // MARK: - Initializers
     
@@ -53,13 +55,15 @@ public struct SnapshotTest {
         record: Bool,
         displayScale: CGFloat?,
         contentSizes: any Collection<SnapshotContentSize>,
-        colorSchemes: any Collection<SnapshotColorScheme>
+        colorSchemes: any Collection<SnapshotColorScheme>,
+        fileFormat: SnapshotFileFormat = .heic
     ) {
         self.devices = devices
         self.record = record
         self.displayScale = displayScale
         self.contentSizes = contentSizes
         self.colorSchemes = colorSchemes
+        self.fileFormat = fileFormat
     }
 
     /// Snapshot specific layout
@@ -209,14 +213,26 @@ public struct SnapshotTest {
         line: UInt
     ) {
         contentSizes.forEach { contentSize in
-            let strategy = Snapshotting<View, UIImage>.image(
-                drawHierarchyInKeyWindow: false,
-                layout: layout,
-                traits: .init(traitsFrom: [
-                    .init(preferredContentSizeCategory: contentSize.uiContentSizeCategory),
-                    displayScale.map { .init(displayScale: $0) },
-                ].compactMap { $0 })
-            )
+            let strategy: Snapshotting<View, UIImage> = switch fileFormat {
+            case .heic:
+                .imageHEIC(
+                    drawHierarchyInKeyWindow: false,
+                    layout: layout,
+                    traits: .init(traitsFrom: [
+                        .init(preferredContentSizeCategory: contentSize.uiContentSizeCategory),
+                        displayScale.map { .init(displayScale: $0) },
+                    ].compactMap { $0 })
+                )
+            case .png:
+                .image(
+                    drawHierarchyInKeyWindow: false,
+                    layout: layout,
+                    traits: .init(traitsFrom: [
+                        .init(preferredContentSizeCategory: contentSize.uiContentSizeCategory),
+                        displayScale.map { .init(displayScale: $0) },
+                    ].compactMap { $0 })
+                )
+            }
 
             assert(
                 view,
@@ -245,14 +261,26 @@ public struct SnapshotTest {
         line: UInt
     ) {
         colorSchemes.forEach { interfaceStyle in
-            let strategy = Snapshotting<View, UIImage>.image(
-                drawHierarchyInKeyWindow: false,
-                layout: layout,
-                traits: .init(traitsFrom: [
-                    .init(userInterfaceStyle: interfaceStyle.uiUserInterfaceStyle),
-                    displayScale.map { .init(displayScale: $0) },
-                ].compactMap { $0 })
-            )
+            let strategy: Snapshotting<View, UIImage> = switch fileFormat {
+            case .heic:
+                .imageHEIC(
+                    drawHierarchyInKeyWindow: false,
+                    layout: layout,
+                    traits: .init(traitsFrom: [
+                        .init(userInterfaceStyle: interfaceStyle.uiUserInterfaceStyle),
+                        displayScale.map { .init(displayScale: $0) },
+                    ].compactMap { $0 })
+                )
+            case .png:
+                .image(
+                    drawHierarchyInKeyWindow: false,
+                    layout: layout,
+                    traits: .init(traitsFrom: [
+                        .init(userInterfaceStyle: interfaceStyle.uiUserInterfaceStyle),
+                        displayScale.map { .init(displayScale: $0) },
+                    ].compactMap { $0 })
+                )
+            }
 
             assert(
                 view,
@@ -353,12 +381,21 @@ public struct SnapshotTest {
         } else {
             [(.large, "sizeL")]
         }
-
-        let strategy = Snapshotting<FixedDynamicView, UIImage>.image(
-            drawHierarchyInKeyWindow: false,
-            layout: .sizeThatFits,
-            traits: displayScale.map { .init(displayScale: $0) } ?? .init()
-        )
+        
+        let strategy: Snapshotting<FixedDynamicView, UIImage> = switch fileFormat {
+        case .heic:
+            .imageHEIC(
+                drawHierarchyInKeyWindow: false,
+                layout: .sizeThatFits,
+                traits: displayScale.map { .init(displayScale: $0) } ?? .init()
+            )
+        case .png:
+            .image(
+                drawHierarchyInKeyWindow: false,
+                layout: .sizeThatFits,
+                traits: displayScale.map { .init(displayScale: $0) } ?? .init()
+            )
+        }
 
         sizes.forEach { contentSize, name in
             // Fixed size is needed for view to layout to the whole view
