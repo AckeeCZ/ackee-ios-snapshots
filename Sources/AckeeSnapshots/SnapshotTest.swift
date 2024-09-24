@@ -65,6 +65,7 @@ public struct SnapshotTest {
     /// Snapshot specific layout
     public func layout<View: SwiftUI.View>(
         _ view: View,
+        testDynamicSize: Bool = true,
         layout: SwiftUISnapshotLayout,
         record: Bool? = nil,
         wait: TimeInterval = 0,
@@ -89,6 +90,7 @@ public struct SnapshotTest {
 
         assertDynamicTypes(
             view,
+            testDynamicSize: testDynamicSize,
             record: record,
             wait: wait,
             precision: precision,
@@ -113,10 +115,10 @@ public struct SnapshotTest {
     ) {
         assertUIVariants(
             view,
+            testDynamicSize: testDynamicSize,
             record: record,
             wait: wait,
             precision: precision,
-            testDynamicSize: testDynamicSize,
             file: file,
             testName: testName,
             line: line
@@ -126,6 +128,7 @@ public struct SnapshotTest {
     /// Snapshot from all devices
     public func devices<View: SwiftUI.View>(
         _ view: View,
+        testDynamicSize: Bool = true,
         record: Bool? = nil,
         wait: TimeInterval = 0,
         scrollViewMultiplier: Double? = nil,
@@ -137,6 +140,7 @@ public struct SnapshotTest {
     ) {
         assertDevices(
             view,
+            testDynamicSize: testDynamicSize,
             record: record,
             scrollViewMultiplier: scrollViewMultiplier,
             wait: wait,
@@ -150,6 +154,7 @@ public struct SnapshotTest {
     /// Snapshot from one device
     public func device<View: SwiftUI.View>(
         _ view: View,
+        testDynamicSize: Bool = true,
         device: SnapshotDevice,
         record: Bool? = nil,
         wait: TimeInterval = 0,
@@ -162,6 +167,7 @@ public struct SnapshotTest {
     ) {
         assertDevice(
             view,
+            testDynamicSize: testDynamicSize,
             device: device,
             record: record,
             wait: wait,
@@ -199,6 +205,7 @@ public struct SnapshotTest {
 
     private func assertDynamicTypes<View: SwiftUI.View>(
         _ view: View,
+        testDynamicSize: Bool,
         record: Bool?,
         wait: TimeInterval,
         precision: Double,
@@ -208,7 +215,13 @@ public struct SnapshotTest {
         testName: String,
         line: UInt
     ) {
-        contentSizes.forEach { contentSize in
+        let sizes: any Collection<SnapshotContentSize> = if testDynamicSize {
+            contentSizes
+        } else {
+            [.large]
+        }
+
+        sizes.forEach { contentSize in
             let strategy = Snapshotting<View, UIImage>.image(
                 drawHierarchyInKeyWindow: false,
                 layout: layout,
@@ -271,6 +284,7 @@ public struct SnapshotTest {
 
     private func assertDevices<View: SwiftUI.View>(
         _ view: View,
+        testDynamicSize: Bool,
         record: Bool?,
         scrollViewMultiplier: Double?,
         wait: TimeInterval,
@@ -288,6 +302,7 @@ public struct SnapshotTest {
         devices.forEach { device in
             assertDevice(
                 view,
+                testDynamicSize: testDynamicSize,
                 device: device,
                 record: record,
                 wait: wait,
@@ -301,6 +316,7 @@ public struct SnapshotTest {
 
     private func assertDevice<View: SwiftUI.View>(
         _ view: View,
+        testDynamicSize: Bool,
         device: SnapshotDevice,
         record: Bool?,
         wait: TimeInterval,
@@ -325,6 +341,7 @@ public struct SnapshotTest {
 
         assertDynamicTypes(
             view,
+            testDynamicSize: testDynamicSize,
             record: record,
             wait: wait,
             precision: precision,
@@ -338,10 +355,10 @@ public struct SnapshotTest {
 
     private func assertUIVariants<View: SwiftUI.View>(
         _ view: View,
+        testDynamicSize: Bool,
         record: Bool?,
         wait: TimeInterval,
         precision: Double,
-        testDynamicSize: Bool,
         file: StaticString,
         testName: String,
         line: UInt
