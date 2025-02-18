@@ -3,12 +3,37 @@ import UIKit
 
 /// Represents various devices used for snapshot testing.
 public enum SnapshotDevice {
-    case iPhone8, iPhone8Plus
-    case iPhoneX, iPhoneXsMax
-    case iPhone12, iPhone12Pro, iPhone12ProMax
-    case iPhone13Mini, iPhone13, iPhone13Pro, iPhone13ProMax
-    case iPadMini
-    case iPadPro10_5, iPadPro11, iPadPro12_9
+    public static let iPhone8 = SnapshotDevice.iPhone8(.portrait)
+    public static let iPhone8Plus = SnapshotDevice.iPhone8Plus(.portrait)
+    public static let iPhoneX = SnapshotDevice.iPhoneX(.portrait)
+    public static let iPhoneXsMax = SnapshotDevice.iPhoneXsMax(.portrait)
+    public static let iPhone12 = SnapshotDevice.iPhone12(.portrait)
+    public static let iPhone12Pro = SnapshotDevice.iPhone12Pro(.portrait)
+    public static let iPhone12ProMax = SnapshotDevice.iPhone12ProMax(.portrait)
+    public static let iPhone13Mini = SnapshotDevice.iPhone13Mini(.portrait)
+    public static let iPhone13 = SnapshotDevice.iPhone13(.portrait)
+    public static let iPhone13Pro = SnapshotDevice.iPhone13Pro(.portrait)
+    public static let iPhone13ProMax = SnapshotDevice.iPhone13ProMax(.portrait)
+    public static let iPadMini = SnapshotDevice.iPadMini(.landscape)
+    public static let iPadPro10_5 = SnapshotDevice.iPadPro10_5(.landscape)
+    public static let iPadPro11 = SnapshotDevice.iPadPro11(.landscape)
+    public static let iPadPro12_9 = SnapshotDevice.iPadPro12_9(.landscape)
+    
+    case iPhone8(_ orientation: ViewImageConfig.Orientation)
+    case iPhone8Plus(_ orientation: ViewImageConfig.Orientation)
+    case iPhoneX(_ orientation: ViewImageConfig.Orientation)
+    case iPhoneXsMax(_ orientation: ViewImageConfig.Orientation)
+    case iPhone12(_ orientation: ViewImageConfig.Orientation)
+    case iPhone12Pro(_ orientation: ViewImageConfig.Orientation)
+    case iPhone12ProMax(_ orientation: ViewImageConfig.Orientation)
+    case iPhone13Mini(_ orientation: ViewImageConfig.Orientation)
+    case iPhone13(_ orientation: ViewImageConfig.Orientation)
+    case iPhone13Pro(_ orientation: ViewImageConfig.Orientation)
+    case iPhone13ProMax(_ orientation: ViewImageConfig.Orientation)
+    case iPadMini(_ orientation: ViewImageConfig.Orientation)
+    case iPadPro10_5(_ orientation: ViewImageConfig.Orientation)
+    case iPadPro11(_ orientation: ViewImageConfig.Orientation)
+    case iPadPro12_9(_ orientation: ViewImageConfig.Orientation)
     case custom(SnapshotDeviceConfig)
 }
 
