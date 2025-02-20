@@ -35,6 +35,32 @@ public enum SnapshotDevice {
     case iPadPro11(_ orientation: ViewImageConfig.Orientation)
     case iPadPro12_9(_ orientation: ViewImageConfig.Orientation)
     case custom(SnapshotDeviceConfig)
+    
+    var hasDefaultOrientation: Bool {
+        switch self {
+        case let .iPhone8(orientation),
+            let .iPhone8Plus(orientation),
+            let .iPhoneX(orientation),
+            let .iPhoneXsMax(orientation),
+            let .iPhone12(orientation),
+            let .iPhone12Pro(orientation),
+            let .iPhone12ProMax(orientation),
+            let .iPhone13Mini(orientation),
+            let .iPhone13(orientation),
+            let .iPhone13Pro(orientation),
+            let .iPhone13ProMax(orientation):
+            return orientation == .portrait
+            
+        case let .iPadMini(orientation),
+            let .iPadPro10_5(orientation),
+            let .iPadPro11(orientation),
+            let .iPadPro12_9(orientation):
+            return orientation == .landscape
+            
+        case .custom:
+            return true
+        }
+    }
 }
 
 public extension SnapshotDevice {
@@ -62,7 +88,7 @@ public extension SnapshotDevice {
 
     /// Returns the name of the device as a string.
     var name: String {
-        var baseName = switch self {
+        let baseName = switch self {
         case .iPhone8: "iP8"
         case .iPhone8Plus: "iP8Plus"
         case .iPhoneX: "iPX"
@@ -81,7 +107,11 @@ public extension SnapshotDevice {
         case .custom(let config): config.name
         }
         
-        return baseName.applyOrientationSuffix(orientation)
+        return if hasDefaultOrientation {
+            baseName
+        } else {
+            baseName.applyOrientationSuffix(orientation)
+        }
     }
     
     /// Returns the associated orientation
@@ -104,7 +134,7 @@ public extension SnapshotDevice {
              let .iPadPro12_9(orientation):
             return orientation
 
-        case .custom(let config):
+        case .custom:
             return nil
         }
     }
