@@ -41,22 +41,22 @@ public extension SnapshotDevice {
     /// Returns the `ViewImageConfig` associated with the device.
     var config: ViewImageConfig {
         switch self {
-        case .iPhone8: .iPhone8
-        case .iPhone8Plus: .iPhone8Plus
-        case .iPhoneX: .iPhoneX
-        case .iPhoneXsMax: .iPhoneXsMax
-        case .iPhone12: .iPhone12
-        case .iPhone12Pro: .iPhone12Pro
-        case .iPhone12ProMax: .iPhone12ProMax
-        case .iPhone13Mini: .iPhone13Mini
-        case .iPhone13: .iPhone13
-        case .iPhone13Pro: .iPhone13Pro
-        case .iPhone13ProMax: .iPhone13ProMax
-        case .iPadMini: .iPadMini
-        case .iPadPro10_5: .iPadPro10_5
-        case .iPadPro11: .iPadPro11
-        case .iPadPro12_9: .iPadPro12_9
-        case .custom(let config): config.config
+        case let .iPhone8(orientation): .iPhone8(orientation)
+        case let .iPhone8Plus(orientation): .iPhone8Plus(orientation)
+        case let .iPhoneX(orientation): .iPhoneX(orientation)
+        case let .iPhoneXsMax(orientation): .iPhoneXsMax(orientation)
+        case let .iPhone12(orientation): .iPhone12(orientation)
+        case let .iPhone12Pro(orientation): .iPhone12Pro(orientation)
+        case let .iPhone12ProMax(orientation): .iPhone12ProMax(orientation)
+        case let .iPhone13Mini(orientation): .iPhone13Mini(orientation)
+        case let .iPhone13(orientation): .iPhone13(orientation)
+        case let .iPhone13Pro(orientation): .iPhone13Pro(orientation)
+        case let .iPhone13ProMax(orientation): .iPhone13ProMax(orientation)
+        case let .iPadMini(orientation): .iPadMini(orientation)
+        case let .iPadPro10_5(orientation): .iPadPro10_5(orientation)
+        case let .iPadPro11(orientation): .iPadPro11(orientation)
+        case let .iPadPro12_9(orientation): .iPadPro12_9(orientation)
+        case let .custom(config): config.config
         }
     }
 
