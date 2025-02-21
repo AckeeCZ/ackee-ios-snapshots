@@ -178,11 +178,11 @@ fileprivate extension String {
         
         let orientationString = switch orientation {
         case .landscape:
-            "Landscape"
+            "landscape"
         case .portrait:
-            "Portrait"
+            "portrait"
         }
         
-        return "\(self)\(orientationString)"
+        return [self, orientationString].joined(separator: "_")
     }
 }
