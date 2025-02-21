@@ -9,3 +9,4 @@
 ## Next
 
 - Adds testDynamicSize parameter, which allows to control capturing dynamic size screenshots (#4, kudos to @babacros)
+- Adds orientation customizability for SnapshotDevice (#5, kudos to @nadvitek)

@@ -3,41 +3,92 @@ import UIKit
 
 /// Represents various devices used for snapshot testing.
 public enum SnapshotDevice {
-    case iPhone8, iPhone8Plus
-    case iPhoneX, iPhoneXsMax
-    case iPhone12, iPhone12Pro, iPhone12ProMax
-    case iPhone13Mini, iPhone13, iPhone13Pro, iPhone13ProMax
-    case iPadMini
-    case iPadPro10_5, iPadPro11, iPadPro12_9
+    public static let iPhone8 = SnapshotDevice.iPhone8(.portrait)
+    public static let iPhone8Plus = SnapshotDevice.iPhone8Plus(.portrait)
+    public static let iPhoneX = SnapshotDevice.iPhoneX(.portrait)
+    public static let iPhoneXsMax = SnapshotDevice.iPhoneXsMax(.portrait)
+    public static let iPhone12 = SnapshotDevice.iPhone12(.portrait)
+    public static let iPhone12Pro = SnapshotDevice.iPhone12Pro(.portrait)
+    public static let iPhone12ProMax = SnapshotDevice.iPhone12ProMax(.portrait)
+    public static let iPhone13Mini = SnapshotDevice.iPhone13Mini(.portrait)
+    public static let iPhone13 = SnapshotDevice.iPhone13(.portrait)
+    public static let iPhone13Pro = SnapshotDevice.iPhone13Pro(.portrait)
+    public static let iPhone13ProMax = SnapshotDevice.iPhone13ProMax(.portrait)
+    public static let iPadMini = SnapshotDevice.iPadMini(.landscape)
+    public static let iPadPro10_5 = SnapshotDevice.iPadPro10_5(.landscape)
+    public static let iPadPro11 = SnapshotDevice.iPadPro11(.landscape)
+    public static let iPadPro12_9 = SnapshotDevice.iPadPro12_9(.landscape)
+    
+    case iPhone8(_ orientation: ViewImageConfig.Orientation)
+    case iPhone8Plus(_ orientation: ViewImageConfig.Orientation)
+    case iPhoneX(_ orientation: ViewImageConfig.Orientation)
+    case iPhoneXsMax(_ orientation: ViewImageConfig.Orientation)
+    case iPhone12(_ orientation: ViewImageConfig.Orientation)
+    case iPhone12Pro(_ orientation: ViewImageConfig.Orientation)
+    case iPhone12ProMax(_ orientation: ViewImageConfig.Orientation)
+    case iPhone13Mini(_ orientation: ViewImageConfig.Orientation)
+    case iPhone13(_ orientation: ViewImageConfig.Orientation)
+    case iPhone13Pro(_ orientation: ViewImageConfig.Orientation)
+    case iPhone13ProMax(_ orientation: ViewImageConfig.Orientation)
+    case iPadMini(_ orientation: ViewImageConfig.Orientation)
+    case iPadPro10_5(_ orientation: ViewImageConfig.Orientation)
+    case iPadPro11(_ orientation: ViewImageConfig.Orientation)
+    case iPadPro12_9(_ orientation: ViewImageConfig.Orientation)
     case custom(SnapshotDeviceConfig)
+    
+    var hasDefaultOrientation: Bool {
+        switch self {
+        case let .iPhone8(orientation),
+            let .iPhone8Plus(orientation),
+            let .iPhoneX(orientation),
+            let .iPhoneXsMax(orientation),
+            let .iPhone12(orientation),
+            let .iPhone12Pro(orientation),
+            let .iPhone12ProMax(orientation),
+            let .iPhone13Mini(orientation),
+            let .iPhone13(orientation),
+            let .iPhone13Pro(orientation),
+            let .iPhone13ProMax(orientation):
+            return orientation == .portrait
+            
+        case let .iPadMini(orientation),
+            let .iPadPro10_5(orientation),
+            let .iPadPro11(orientation),
+            let .iPadPro12_9(orientation):
+            return orientation == .landscape
+            
+        case .custom:
+            return true
+        }
+    }
 }
 
 public extension SnapshotDevice {
     /// Returns the `ViewImageConfig` associated with the device.
     var config: ViewImageConfig {
         switch self {
-        case .iPhone8: .iPhone8
-        case .iPhone8Plus: .iPhone8Plus
-        case .iPhoneX: .iPhoneX
-        case .iPhoneXsMax: .iPhoneXsMax
-        case .iPhone12: .iPhone12
-        case .iPhone12Pro: .iPhone12Pro
-        case .iPhone12ProMax: .iPhone12ProMax
-        case .iPhone13Mini: .iPhone13Mini
-        case .iPhone13: .iPhone13
-        case .iPhone13Pro: .iPhone13Pro
-        case .iPhone13ProMax: .iPhone13ProMax
-        case .iPadMini: .iPadMini
-        case .iPadPro10_5: .iPadPro10_5
-        case .iPadPro11: .iPadPro11
-        case .iPadPro12_9: .iPadPro12_9
-        case .custom(let config): config.config
+        case let .iPhone8(orientation): .iPhone8(orientation)
+        case let .iPhone8Plus(orientation): .iPhone8Plus(orientation)
+        case let .iPhoneX(orientation): .iPhoneX(orientation)
+        case let .iPhoneXsMax(orientation): .iPhoneXsMax(orientation)
+        case let .iPhone12(orientation): .iPhone12(orientation)
+        case let .iPhone12Pro(orientation): .iPhone12Pro(orientation)
+        case let .iPhone12ProMax(orientation): .iPhone12ProMax(orientation)
+        case let .iPhone13Mini(orientation): .iPhone13Mini(orientation)
+        case let .iPhone13(orientation): .iPhone13(orientation)
+        case let .iPhone13Pro(orientation): .iPhone13Pro(orientation)
+        case let .iPhone13ProMax(orientation): .iPhone13ProMax(orientation)
+        case let .iPadMini(orientation): .iPadMini(orientation)
+        case let .iPadPro10_5(orientation): .iPadPro10_5(orientation)
+        case let .iPadPro11(orientation): .iPadPro11(orientation)
+        case let .iPadPro12_9(orientation): .iPadPro12_9(orientation)
+        case let .custom(config): config.config
         }
     }
 
     /// Returns the name of the device as a string.
     var name: String {
-        switch self {
+        let baseName = switch self {
         case .iPhone8: "iP8"
         case .iPhone8Plus: "iP8Plus"
         case .iPhoneX: "iPX"
@@ -54,6 +105,37 @@ public extension SnapshotDevice {
         case .iPadPro11: "iPadPro11"
         case .iPadPro12_9: "iPadPro12_9"
         case .custom(let config): config.name
+        }
+        
+        return if hasDefaultOrientation {
+            baseName
+        } else {
+            baseName.applyOrientationSuffix(orientation)
+        }
+    }
+    
+    /// Returns the associated orientation
+    private var orientation: ViewImageConfig.Orientation? {
+        switch self {
+        case let .iPhone8(orientation),
+             let .iPhone8Plus(orientation),
+             let .iPhoneX(orientation),
+             let .iPhoneXsMax(orientation),
+             let .iPhone12(orientation),
+             let .iPhone12Pro(orientation),
+             let .iPhone12ProMax(orientation),
+             let .iPhone13Mini(orientation),
+             let .iPhone13(orientation),
+             let .iPhone13Pro(orientation),
+             let .iPhone13ProMax(orientation),
+             let .iPadMini(orientation),
+             let .iPadPro10_5(orientation),
+             let .iPadPro11(orientation),
+             let .iPadPro12_9(orientation):
+            return orientation
+
+        case .custom:
+            return nil
         }
     }
 
@@ -87,5 +169,20 @@ public extension SnapshotDevice {
                 )
             )
         )
+    }
+}
+
+fileprivate extension String {
+    func applyOrientationSuffix(_ orientation: ViewImageConfig.Orientation?) -> Self {
+        guard let orientation else { return self }
+        
+        let orientationString = switch orientation {
+        case .landscape:
+            "landscape"
+        case .portrait:
+            "portrait"
+        }
+        
+        return [self, orientationString].joined(separator: "_")
     }
 }
