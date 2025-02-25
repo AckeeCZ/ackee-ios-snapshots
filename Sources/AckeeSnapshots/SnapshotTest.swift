@@ -227,13 +227,16 @@ public struct SnapshotTest {
             default: nil
             }
             
+            let idiom: UIUserInterfaceIdiom = deviceName.contains("iPad") ? .pad : .phone
+            
             let strategy = Snapshotting<View, UIImage>.image(
                 drawHierarchyInKeyWindow: false,
                 layout: layout,
                 traits: .init(traitsFrom: [
                     .init(preferredContentSizeCategory: contentSize.uiContentSizeCategory),
                     displayScale.map { .init(displayScale: $0) },
-                    config?.traits
+                    .init(userInterfaceIdiom: idiom),
+//                    config?.traits
                 ].compactMap { $0 })
             )
 
