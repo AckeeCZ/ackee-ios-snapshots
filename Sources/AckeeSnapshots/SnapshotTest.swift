@@ -222,12 +222,18 @@ public struct SnapshotTest {
         }
 
         sizes.forEach { contentSize in
+            let config: ViewImageConfig? = switch layout {
+            case let .device(config): config
+            default: nil
+            }
+            
             let strategy = Snapshotting<View, UIImage>.image(
                 drawHierarchyInKeyWindow: false,
                 layout: layout,
                 traits: .init(traitsFrom: [
                     .init(preferredContentSizeCategory: contentSize.uiContentSizeCategory),
                     displayScale.map { .init(displayScale: $0) },
+                    config?.traits
                 ].compactMap { $0 })
             )
 
