@@ -165,6 +165,12 @@ public struct SnapshotTest {
         precision: Double = 1.0,
         nameAddition: String? = nil
     ) {
+        let device: SnapshotDevice = if let scrollViewMultiplier {
+            .snapshotLongDevice(scrollViewMultiplier, device: device)
+        } else {
+            device
+        }
+
         assertDevice(
             view,
             testDynamicSize: testDynamicSize,
