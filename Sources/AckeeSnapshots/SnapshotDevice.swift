@@ -150,22 +150,23 @@ public extension SnapshotDevice {
     /// - Returns: A `SnapshotDevice` with a custom configuration.
     static func snapshotLongDevice(
         _ heightMultiplier: Double?,
-        device: SnapshotDevice = .iPhone13ProMax
+        device: SnapshotDevice? = nil
     ) -> Self {
-        let defaultDevice: ViewImageConfig = device.config
+        let device = device ?? .iPhone13ProMax
+        let config: ViewImageConfig = device.config
         guard
             let heightMultiplier,
-            let width = defaultDevice.size?.width,
-            let height = defaultDevice.size?.height
+            let width = config.size?.width,
+            let height = config.size?.height
         else { return SnapshotDevice.iPhone13ProMax }
 
         return .custom(
             .init(
                 name: device.name + "Long",
                 config: .init(
-                    safeArea: defaultDevice.safeArea,
+                    safeArea: config.safeArea,
                     size: .init(width: width, height: height * heightMultiplier),
-                    traits: defaultDevice.traits
+                    traits: config.traits
                 )
             )
         )

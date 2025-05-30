@@ -300,7 +300,7 @@ public struct SnapshotTest {
         line: UInt
     ) {
         let devices: [SnapshotDevice] = if let scrollViewMultiplier {
-            devices + [SnapshotDevice.snapshotLongDevice(scrollViewMultiplier)]
+            devices + [SnapshotDevice.snapshotLongDevice(scrollViewMultiplier, device: devices.first)]
         } else {
             devices
         }
