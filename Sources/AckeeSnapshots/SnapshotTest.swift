@@ -41,7 +41,7 @@ public struct SnapshotTest {
     private let colorSchemes: any Collection<SnapshotColorScheme>
 
     // MARK: - Initializers
-    
+
     /// Create new snapshot test configuration
     /// - Parameters:
     ///   - devices: Default devices for snapshot tests
@@ -63,6 +63,17 @@ public struct SnapshotTest {
     }
 
     /// Snapshot specific layout
+    /// - Parameters:
+    ///   - view: View to snapshot
+    ///   - testDynamicSize: Whether to test different dynamic type sizes
+    ///   - layout: SwiftUI layout to use for snapshot (e.g. .device, .sizeThatFits)
+    ///   - record: Whether to record new reference images
+    ///   - wait: Time to wait before taking snapshot
+    ///   - line: Source code line number
+    ///   - file: Source code file path
+    ///   - testName: Name of the test function
+    ///   - precision: Precision for snapshot comparison
+    ///   - nameAddition: Optional addition to snapshot name
     public func layout<View: SwiftUI.View>(
         _ view: View,
         testDynamicSize: Bool = true,
@@ -101,7 +112,17 @@ public struct SnapshotTest {
         )
     }
 
-    /// Snapshot design component
+    /// Snapshot design component using sizeThatFits layout
+    /// - Parameters:
+    ///   - view: View to snapshot
+    ///   - testDynamicSize: Whether to test different dynamic type sizes
+    ///   - record: Whether to record new reference images
+    ///   - wait: Time to wait before taking snapshot
+    ///   - line: Source code line number
+    ///   - file: Source code file path
+    ///   - testName: Name of the test function
+    ///   - precision: Precision for snapshot comparison
+    ///   - nameAddition: Optional addition to snapshot name
     public func component<View: SwiftUI.View>(
         _ view: View,
         testDynamicSize: Bool = true,
@@ -126,6 +147,17 @@ public struct SnapshotTest {
     }
 
     /// Snapshot from all devices
+    /// - Parameters:
+    ///   - view: View to snapshot
+    ///   - testDynamicSize: Whether to test different dynamic type sizes
+    ///   - record: Whether to record new reference images
+    ///   - wait: Time to wait before taking snapshot
+    ///   - scrollViewMultiplier: If set, adds a long snapshot of first device with height multiplied by this value
+    ///   - line: Source code line number
+    ///   - file: Source code file path
+    ///   - testName: Name of the test function
+    ///   - precision: Precision for snapshot comparison
+    ///   - nameAddition: Optional addition to snapshot name
     public func devices<View: SwiftUI.View>(
         _ view: View,
         testDynamicSize: Bool = true,
@@ -152,6 +184,18 @@ public struct SnapshotTest {
     }
 
     /// Snapshot from one device
+    /// - Parameters:
+    ///   - view: View to snapshot
+    ///   - testDynamicSize: Whether to test different dynamic type sizes
+    ///   - device: Device configuration to use for snapshot
+    ///   - record: Whether to record new reference images
+    ///   - wait: Time to wait before taking snapshot
+    ///   - scrollViewMultiplier: If set, uses a long snapshot of device with height multiplied by this value
+    ///   - line: Source code line number
+    ///   - file: Source code file path
+    ///   - testName: Name of the test function
+    ///   - precision: Precision for snapshot comparison
+    ///   - nameAddition: Optional addition to snapshot name
     public func device<View: SwiftUI.View>(
         _ view: View,
         testDynamicSize: Bool = true,
