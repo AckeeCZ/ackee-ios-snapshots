@@ -1,6 +1,6 @@
 # Changelog
 
-- please enter new entries in format 
+- please enter new entries in format, new entries on top
 
 ```
 - <description> (#<PR_number>, kudos to @<author>)
@@ -8,6 +8,11 @@
 
 ## Next
 
-- Adds testDynamicSize parameter, which allows to control capturing dynamic size screenshots (#4, kudos to @babacros)
-- Adds orientation customizability for SnapshotDevice (#5, kudos to @nadvitek)
+- Add `displayScale` parameter to public assert functions (#9, kudos to @olejnjak)
 - Fixes bug: Snapshot for one device doesn't respect scrollViewMultiplier (#7) (#8, kudos to @komkovla)
+
+## 0.2.0
+
+- Adds orientation customizability for SnapshotDevice (#5, kudos to @nadvitek)
+- Adds testDynamicSize parameter, which allows to control capturing dynamic size screenshots (#4, kudos to @babacros)
+

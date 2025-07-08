@@ -69,6 +69,7 @@ public struct SnapshotTest {
     ///   - layout: SwiftUI layout to use for snapshot (e.g. .device, .sizeThatFits)
     ///   - record: Whether to record new reference images
     ///   - wait: Time to wait before taking snapshot
+    ///   - displayScale: Display scale to be used for snapshots, if `nil` uses value from ``init(devices:record:displayScale:contentSizes:colorSchemes:)``
     ///   - line: Source code line number
     ///   - file: Source code file path
     ///   - testName: Name of the test function
@@ -80,6 +81,7 @@ public struct SnapshotTest {
         layout: SwiftUISnapshotLayout,
         record: Bool? = nil,
         wait: TimeInterval = 0,
+        displayScale: CGFloat? = nil,
         line: UInt = #line,
         file: StaticString = #file,
         testName: String = #function,
@@ -93,6 +95,7 @@ public struct SnapshotTest {
                 wait: wait,
                 precision: precision,
                 layout: layout,
+                displayScale: displayScale,
                 file: file,
                 testName: testName,
                 line: line
@@ -106,6 +109,7 @@ public struct SnapshotTest {
             wait: wait,
             precision: precision,
             layout: layout,
+            displayScale: displayScale,
             file: file,
             testName: testName,
             line: line
@@ -118,6 +122,7 @@ public struct SnapshotTest {
     ///   - testDynamicSize: Whether to test different dynamic type sizes
     ///   - record: Whether to record new reference images
     ///   - wait: Time to wait before taking snapshot
+    ///   - displayScale: Display scale to be used for snapshots, if `nil` uses value from ``init(devices:record:displayScale:contentSizes:colorSchemes:)``
     ///   - line: Source code line number
     ///   - file: Source code file path
     ///   - testName: Name of the test function
@@ -128,6 +133,7 @@ public struct SnapshotTest {
         testDynamicSize: Bool = true,
         record: Bool? = nil,
         wait: TimeInterval = 0,
+        displayScale: CGFloat? = nil,
         line: UInt = #line,
         file: StaticString = #file,
         testName: String = #function,
@@ -140,6 +146,7 @@ public struct SnapshotTest {
             record: record,
             wait: wait,
             precision: precision,
+            displayScale: displayScale,
             file: file,
             testName: testName,
             line: line
@@ -153,6 +160,7 @@ public struct SnapshotTest {
     ///   - record: Whether to record new reference images
     ///   - wait: Time to wait before taking snapshot
     ///   - scrollViewMultiplier: If set, adds a long snapshot of first device with height multiplied by this value
+    ///   - displayScale: Display scale to be used for snapshots, if `nil` uses value from ``init(devices:record:displayScale:contentSizes:colorSchemes:)``
     ///   - line: Source code line number
     ///   - file: Source code file path
     ///   - testName: Name of the test function
@@ -164,6 +172,7 @@ public struct SnapshotTest {
         record: Bool? = nil,
         wait: TimeInterval = 0,
         scrollViewMultiplier: Double? = nil,
+        displayScale: CGFloat? = nil,
         line: UInt = #line,
         file: StaticString = #file,
         testName: String = #function,
@@ -177,6 +186,7 @@ public struct SnapshotTest {
             scrollViewMultiplier: scrollViewMultiplier,
             wait: wait,
             precision: precision,
+            displayScale: displayScale,
             file: file,
             testName: testName,
             line: line
@@ -191,6 +201,7 @@ public struct SnapshotTest {
     ///   - record: Whether to record new reference images
     ///   - wait: Time to wait before taking snapshot
     ///   - scrollViewMultiplier: If set, uses a long snapshot of device with height multiplied by this value
+    ///   - displayScale: Display scale to be used for snapshots, if `nil` uses value from ``init(devices:record:displayScale:contentSizes:colorSchemes:)``
     ///   - line: Source code line number
     ///   - file: Source code file path
     ///   - testName: Name of the test function
@@ -203,6 +214,7 @@ public struct SnapshotTest {
         record: Bool? = nil,
         wait: TimeInterval = 0,
         scrollViewMultiplier: Double? = nil,
+        displayScale: CGFloat? = nil,
         line: UInt = #line,
         file: StaticString = #file,
         testName: String = #function,
@@ -222,6 +234,7 @@ public struct SnapshotTest {
             record: record,
             wait: wait,
             precision: precision,
+            displayScale: displayScale,
             file: file,
             testName: testName,
             line: line
@@ -261,6 +274,7 @@ public struct SnapshotTest {
         precision: Double,
         layout: SwiftUISnapshotLayout,
         deviceName: String = "",
+        displayScale scaleParam: CGFloat?,
         file: StaticString,
         testName: String,
         line: UInt
@@ -277,7 +291,7 @@ public struct SnapshotTest {
                 layout: layout,
                 traits: .init(traitsFrom: [
                     .init(preferredContentSizeCategory: contentSize.uiContentSizeCategory),
-                    displayScale.map { .init(displayScale: $0) },
+                    (scaleParam ?? displayScale).map { .init(displayScale: $0) },
                 ].compactMap { $0 })
             )
 
@@ -303,6 +317,7 @@ public struct SnapshotTest {
         precision: Double,
         layout: SwiftUISnapshotLayout,
         deviceName: String = "",
+        displayScale scaleParam: CGFloat?,
         file: StaticString,
         testName: String,
         line: UInt
@@ -313,7 +328,7 @@ public struct SnapshotTest {
                 layout: layout,
                 traits: .init(traitsFrom: [
                     .init(userInterfaceStyle: interfaceStyle.uiUserInterfaceStyle),
-                    displayScale.map { .init(displayScale: $0) },
+                    (scaleParam ?? displayScale).map { .init(displayScale: $0) },
                 ].compactMap { $0 })
             )
 
@@ -339,6 +354,7 @@ public struct SnapshotTest {
         scrollViewMultiplier: Double?,
         wait: TimeInterval,
         precision: Double,
+        displayScale: CGFloat?,
         file: StaticString,
         testName: String,
         line: UInt
@@ -357,6 +373,7 @@ public struct SnapshotTest {
                 record: record,
                 wait: wait,
                 precision: precision,
+                displayScale: displayScale,
                 file: file,
                 testName: testName,
                 line: line
@@ -371,6 +388,7 @@ public struct SnapshotTest {
         record: Bool?,
         wait: TimeInterval,
         precision: Double,
+        displayScale: CGFloat?,
         file: StaticString,
         testName: String,
         line: UInt
@@ -383,6 +401,7 @@ public struct SnapshotTest {
                 precision: precision,
                 layout: device.layout,
                 deviceName: device.name,
+                displayScale: displayScale,
                 file: file,
                 testName: testName,
                 line: line
@@ -397,6 +416,7 @@ public struct SnapshotTest {
             precision: precision,
             layout: device.layout,
             deviceName: device.name,
+            displayScale: displayScale,
             file: file,
             testName: testName,
             line: line
@@ -409,6 +429,7 @@ public struct SnapshotTest {
         record: Bool?,
         wait: TimeInterval,
         precision: Double,
+        displayScale scaleParam: CGFloat?,
         file: StaticString,
         testName: String,
         line: UInt
@@ -424,7 +445,7 @@ public struct SnapshotTest {
         let strategy = Snapshotting<FixedDynamicView, UIImage>.image(
             drawHierarchyInKeyWindow: false,
             layout: .sizeThatFits,
-            traits: displayScale.map { .init(displayScale: $0) } ?? .init()
+            traits: (scaleParam ?? displayScale).map { .init(displayScale: $0) } ?? .init()
         )
 
         sizes.forEach { contentSize, name in
