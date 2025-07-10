@@ -258,12 +258,26 @@ public struct SnapshotTest {
         assertSnapshot(
             of: view,
             as: wait > 0 ? .wait(for: wait, on: strategy): strategy,
-            named: [deviceName, name].joined(separator: "_"),
+            named: getSnapshotName(file: file, testName: testName, deviceName: deviceName, name: name),
             record: record ?? self.record,
             file: file,
             testName: testName,
             line: line
         )
+    }
+
+    private func getSnapshotName(
+        file: StaticString,
+        testName: String,
+        deviceName: String,
+        name: String
+    ) -> String {
+        let filePath = "\(file)"
+        let keyBaseParts: [String] = [filePath, testName, deviceName, name].compactMap { $0.isEmpty ? nil : $0 }
+        let counterKey = keyBaseParts.joined(separator: "_")
+        let snapshotIndex = snapshotCounter.next(for: counterKey)
+        let nameComponents = snapshotIndex == 0 ? [deviceName, name] : [deviceName, name, "\(snapshotIndex)"]
+        return (nameComponents.compactMap { $0.isEmpty ? nil : $0 }.joined(separator: "_"))
     }
 
     private func assertDynamicTypes<View: SwiftUI.View>(
