@@ -276,7 +276,8 @@ public struct SnapshotTest {
         let keyBaseParts: [String] = [filePath, testName, deviceName, name].compactMap { $0.isEmpty ? nil : $0 }
         let counterKey = keyBaseParts.joined(separator: "_")
         let snapshotIndex = snapshotCounter.next(for: counterKey)
-        return ([deviceName, name, "\(snapshotIndex)"].compactMap { $0.isEmpty ? nil : $0 }.joined(separator: "_"))
+        let nameComponents = snapshotIndex == 0 ? [deviceName, name] : [deviceName, name, "\(snapshotIndex)"]
+        return (nameComponents.compactMap { $0.isEmpty ? nil : $0 }.joined(separator: "_"))
     }
 
     private func assertDynamicTypes<View: SwiftUI.View>(

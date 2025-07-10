@@ -9,7 +9,7 @@ final class Counter {
     func next(for key: String) -> Int {
         lock.lock()
         defer { lock.unlock() }
-        counts[key, default: 0] += 1
+        counts[key, default: -1] += 1
         return counts[key]!
     }
 
