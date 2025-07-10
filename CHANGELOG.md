@@ -8,6 +8,8 @@
 
 ## Next
 
+## 0.3.0
+
 - Add index to the snapshot to avoid name clash on multiple asserts in one test (#10, kudos to @komkovla)
 - Add `displayScale` parameter to public assert functions (#9, kudos to @olejnjak)
 - Fixes bug: Snapshot for one device doesn't respect scrollViewMultiplier (#7) (#8, kudos to @komkovla)
