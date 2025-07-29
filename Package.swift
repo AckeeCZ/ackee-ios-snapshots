@@ -29,5 +29,9 @@ let package = Package(
                 ),
             ]
         ),
+        .testTarget(
+            name: "AckeeSnapshotsTests",
+            dependencies: ["AckeeSnapshots"]
+        ),
     ]
 )
