@@ -38,12 +38,35 @@ func test_appearance() {
 }
 ```
 
+or using _SwiftTesting_
+
+```swift
+import AppTesting
+import Testing
+
+@Test
+func appearance() {
+  assertSnapshot.devices(SubjectView())
+}
+```
+
+## Examples
+
+The `Tests/AckeeSnapshotsTests/AckeeSnapshotsTests.swift` file contains comprehensive examples demonstrating how to use AckeeSnapshots with different UI frameworks using SwiftTesting. The examples include:
+
+- SwiftUI components and views with multiple devices
+- UIKit views and view controllers
+- Single device testing
+- Dynamic type and accessibility testing
+
+These tests serve as both validation for the library and practical examples of how to implement snapshot testing in your own projects using the modern SwiftTesting framework. You can run the tests to see the library in action and use them as a reference for your own implementation.
+
 ## Recommendations
 
 As we use snapshot tests for quite a long time, we have developed several practices that we consider good:
 
 ### Use [Git LFS](https://git-lfs.com) for storing snapshots
-At the beginning you will have a few snapshots so it will not matter, but think about the future. 
+At the beginning you will have a few snapshots so it will not matter, but think about the future.
 If you really snapshot a lot, you might end up with hundreds of megabytes of images, that means that all developers
 will have all snapshots stored locally at any time (unless you use a shallow clone, which is not very practical for development).
 
@@ -51,10 +74,10 @@ When using LFS all files are just pointers to the actual files and you can have 
 
 ### Think of what devices are relevant for you
 
-Trying to cover all devices/font sizes that your app supports is probably a bad idea. The tests will take forever and will use a lot of space, 
+Trying to cover all devices/font sizes that your app supports is probably a bad idea. The tests will take forever and will use a lot of space,
 that increases pull/clone time and makes development a bit more complicated.
 
-We usually use one iPhone with home button, one iPhone with home indicator and the same with iPads. 
+We usually use one iPhone with home button, one iPhone with home indicator and the same with iPads.
 For dynamic type we stick with `large` that is default and one smaller and one larger size.
 Color schemes are only to so we snapshot both of them it app supports dark mode.
 
