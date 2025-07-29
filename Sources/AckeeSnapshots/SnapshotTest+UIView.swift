@@ -5,7 +5,7 @@ extension SnapshotTest {
     /// Snapshot from all devices
     /// - Parameters:
     ///   - view: UIView to snapshot
-    ///   - testDynamicSize: Whether to test different dynamic type sizes (currently not supported for UIKit)
+    ///   - testDynamicSize: Whether to test different dynamic type sizes
     ///   - record: Whether to record new reference images
     ///   - wait: Time to wait before taking snapshot
     ///   - scrollViewMultiplier: If set, adds a long snapshot of first device with height multiplied by this value (currently not supported for UIKit)
@@ -49,7 +49,7 @@ extension SnapshotTest {
     /// Snapshot from one device
     /// - Parameters:
     ///   - view: UIView to snapshot
-    ///   - testDynamicSize: Whether to test different dynamic type sizes (currently not supported for UIKit)
+    ///   - testDynamicSize: Whether to test different dynamic type sizes
     ///   - device: Device configuration to use for snapshot
     ///   - record: Whether to record new reference images
     ///   - wait: Time to wait before taking snapshot
@@ -136,7 +136,7 @@ extension SnapshotTest {
     /// Snapshot design component using sizeThatFits layout
     /// - Parameters:
     ///   - view: UIView to snapshot
-    ///   - testDynamicSize: Whether to test different dynamic type sizes (currently not supported for UIKit)
+    ///   - testDynamicSize: Whether to test different dynamic type sizes
     ///   - record: Whether to record new reference images
     ///   - wait: Time to wait before taking snapshot
     ///   - displayScale: Display scale to be used for snapshots, if `nil` uses value from ``init(devices:record:displayScale:contentSizes:colorSchemes:)``

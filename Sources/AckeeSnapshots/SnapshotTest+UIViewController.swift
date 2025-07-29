@@ -111,7 +111,7 @@ extension SnapshotTest {
                 on: device.config,
                 perceptualPrecision: Float(precision),
                 traits: .init(traitsFrom: [
-                    // .init(preferredContentSizeCategory: contentSize.uiContentSizeCategory),
+                    .init(preferredContentSizeCategory: contentSize.uiContentSizeCategory),
                     (displayScale ?? self.displayScale).map { .init(displayScale: $0) },
                 ].compactMap { $0 })
             )
