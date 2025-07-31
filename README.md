@@ -72,6 +72,8 @@ will have all snapshots stored locally at any time (unless you use a shallow clo
 
 When using LFS all files are just pointers to the actual files and you can have only snapshots that are relevant for your current commit.
 
+**Note:** This repository does not use Git LFS because the number of testing snapshots is low and is not expected to change significantly over time (though this assumption may not always hold true for app designs). Additionally, Git LFS can cause issues with Swift Package Manager (SPM) fetches, which is why we've opted to store snapshots directly in the repository.
+
 ### Think of what devices are relevant for you
 
 Trying to cover all devices/font sizes that your app supports is probably a bad idea. The tests will take forever and will use a lot of space,
