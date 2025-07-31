@@ -28,6 +28,12 @@ extension SnapshotTest {
         precision: Double = 1.0,
         nameAddition: String? = nil
     ) {
+        let devices: [SnapshotDevice] = if let scrollViewMultiplier {
+            devices + [SnapshotDevice.snapshotLongDevice(scrollViewMultiplier, device: devices.first)]
+        } else {
+            devices
+        }
+
         devices.forEach { deviceToSnapshot in
             device(
                 viewController,
@@ -35,7 +41,6 @@ extension SnapshotTest {
                 device: deviceToSnapshot,
                 record: record,
                 wait: wait,
-                scrollViewMultiplier: scrollViewMultiplier,
                 displayScale: displayScale,
                 line: line,
                 file: file,
@@ -53,7 +58,6 @@ extension SnapshotTest {
     ///   - device: Device configuration to use for snapshot
     ///   - record: Whether to record new reference images
     ///   - wait: Time to wait before taking snapshot
-    ///   - scrollViewMultiplier: If set, uses a long snapshot of device with height multiplied by this value (currently not supported for UIKit)
     ///   - displayScale: Display scale to be used for snapshots, if `nil` uses value from ``init(devices:record:displayScale:contentSizes:colorSchemes:)``
     ///   - line: Source code line number
     ///   - file: Source code file path
@@ -66,7 +70,6 @@ extension SnapshotTest {
         device: SnapshotDevice,
         record: Bool? = nil,
         wait: TimeInterval = 0,
-        scrollViewMultiplier: Double? = nil,
         displayScale: CGFloat? = nil,
         line: UInt = #line,
         file: StaticString = #file,
