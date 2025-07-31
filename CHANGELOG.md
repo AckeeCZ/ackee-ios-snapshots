@@ -8,6 +8,9 @@
 
 ## Next
 
+- Add UIKit support for snapshot testing (#11, kudos to @komkovla)
+- Add comprehensive test suite with examples (#11, kudos to @komkovla)
+
 ## 0.3.0
 
 - Add index to the snapshot to avoid name clash on multiple asserts in one test (#10, kudos to @komkovla)
