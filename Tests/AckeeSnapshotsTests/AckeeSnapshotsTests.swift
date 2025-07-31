@@ -16,10 +16,10 @@ let snapshotTest = SnapshotTest(
 // MARK: - Tests
 
 @MainActor
-@Suite struct AckeeSnapshotsTests {
+struct AckeeSnapshotsTests {
     @Test("SwiftUI with multiple devices")
     func swiftUI_devices() {
-        snapshotTest.devices(DemoSwiftUIView())
+        snapshotTest.devices(DemoSwiftUIView(), scrollViewMultiplier: 2)
     }
 
     @Test("SwiftUI component")
@@ -40,7 +40,7 @@ let snapshotTest = SnapshotTest(
 
     @Test("UIKit view controller with multiple devices")
     func uiviewController_devices() {
-        snapshotTest.devices(DemoViewController())
+        snapshotTest.devices(DemoViewController(), scrollViewMultiplier: 2)
     }
 }
 
