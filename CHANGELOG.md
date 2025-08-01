@@ -8,6 +8,8 @@
 
 ## Next
 
+## 0.4.0
+
 - Add UIKit support for snapshot testing (#11, kudos to @komkovla)
 - Add comprehensive test suite with examples (#11, kudos to @komkovla)
 
