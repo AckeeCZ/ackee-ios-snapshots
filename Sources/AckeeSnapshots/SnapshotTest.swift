@@ -60,6 +60,9 @@ public struct SnapshotTest {
         self.displayScale = displayScale
         self.contentSizes = contentSizes
         self.colorSchemes = colorSchemes
+
+        // Register the test observer to clean counter between test cases
+        CleanCounterBetweenTestCases.registerIfNeeded()
     }
 
     /// Shared assertion logic for any view type
