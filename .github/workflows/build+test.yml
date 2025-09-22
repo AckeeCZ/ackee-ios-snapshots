@@ -1,0 +1,40 @@
+name: Build and Test
+
+on:
+  workflow_call:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  DEVELOPER_DIR: /Applications/Xcode_26.0.app
+
+jobs:
+  build:
+    name: Build
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          set -eo pipefail
+          xcodebuild -scheme ackee-ios-snapshots -destination 'generic/platform=iOS' build | xcbeautify
+
+  test:
+    name: Test
+    runs-on: macos-latest
+    needs: build
+    env:
+      IOS_DEVICE: iPhone 13 Pro Max
+    steps:
+      - uses: actions/checkout@v4
+      - name: iOS tests
+        run: set -o pipefail && xcodebuild test -scheme ackee-ios-snapshots -resultBundlePath Tests-iOS.xcresult -sdk iphonesimulator -destination "platform=iOS Simulator,name=$IOS_DEVICE,OS=latest" ONLY_ACTIVE_ARCH=YES | xcpretty
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: Tests-iOS.xcresult
+          path: Tests-iOS.xcresult
