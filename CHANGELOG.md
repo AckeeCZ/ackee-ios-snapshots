@@ -8,6 +8,7 @@
 
 ## Next
 
+- Fix colorScheme is not applied on size and component snapshots (#13, kudos to @komkovla)
 - Fix counter not being reset between test cases (#12, kudos to @komkovla)
 
 ## 0.4.0
