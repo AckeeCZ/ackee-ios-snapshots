@@ -28,7 +28,7 @@ jobs:
     runs-on: macos-latest
     needs: build
     env:
-      IOS_DEVICE: iPhone 13 Pro Max
+      IOS_DEVICE: iPhone 17 Pro Max
     steps:
       - uses: actions/checkout@v4
       - name: iOS tests
