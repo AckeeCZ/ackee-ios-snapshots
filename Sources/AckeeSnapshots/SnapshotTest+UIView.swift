@@ -117,6 +117,7 @@ extension SnapshotTest {
                 traits: .init(traitsFrom: [
                     device.config.traits,
                     .init(preferredContentSizeCategory: contentSize.uiContentSizeCategory),
+                    .init(userInterfaceStyle: colorSchemes.first?.uiUserInterfaceStyle ?? .light),
                     (displayScale ?? self.displayScale).map { .init(displayScale: $0) },
                 ].compactMap { $0 })
             )
@@ -178,6 +179,7 @@ extension SnapshotTest {
                 size: size,
                 traits: .init(traitsFrom: [
                     .init(preferredContentSizeCategory: contentSize.uiContentSizeCategory),
+                    .init(userInterfaceStyle: colorSchemes.first?.uiUserInterfaceStyle ?? .light),
                     (displayScale ?? self.displayScale).map { .init(displayScale: $0) },
                 ].compactMap { $0 })
             )
