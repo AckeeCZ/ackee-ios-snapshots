@@ -284,6 +284,7 @@ extension SnapshotTest {
                 layout: layout,
                 traits: .init(traitsFrom: [
                     .init(preferredContentSizeCategory: contentSize.uiContentSizeCategory),
+                    .init(userInterfaceStyle: colorSchemes.first?.uiUserInterfaceStyle ?? .light),
                     (scaleParam ?? displayScale).map { .init(displayScale: $0) },
                 ].compactMap { $0 })
             )
@@ -362,7 +363,12 @@ extension SnapshotTest {
         let strategy = Snapshotting<FixedDynamicView, UIImage>.image(
             drawHierarchyInKeyWindow: false,
             layout: .sizeThatFits,
-            traits: (scaleParam ?? displayScale).map { .init(displayScale: $0) } ?? .init()
+            traits: .init(
+                traitsFrom: [
+                    (scaleParam ?? displayScale).map { .init(displayScale: $0) },
+                    .init(userInterfaceStyle: colorSchemes.first?.uiUserInterfaceStyle ?? .light)
+                ].compactMap { $0 }
+            )
         )
 
         sizes.forEach { contentSize, name in

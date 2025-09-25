@@ -115,6 +115,7 @@ extension SnapshotTest {
                 perceptualPrecision: Float(precision),
                 traits: .init(traitsFrom: [
                     .init(preferredContentSizeCategory: contentSize.uiContentSizeCategory),
+                    .init(userInterfaceStyle: colorSchemes.first?.uiUserInterfaceStyle ?? .light),
                     (displayScale ?? self.displayScale).map { .init(displayScale: $0) },
                 ].compactMap { $0 })
             )
