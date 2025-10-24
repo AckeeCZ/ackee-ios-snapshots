@@ -5,6 +5,7 @@ import UIKit
 
 // MARK: - Configure snapshot test settings
 
+@MainActor
 let snapshotTest = SnapshotTest(
     devices: [.iPhone13ProMax, .iPadMini],
     record: false,

@@ -15,6 +15,7 @@ extension SnapshotTest {
     ///   - testName: Name of the test function
     ///   - precision: Precision for snapshot comparison
     ///   - nameAddition: Optional addition to snapshot name
+    @MainActor
     public func devices(
         _ viewController: UIViewController,
         testDynamicSize: Bool = true,
@@ -64,6 +65,7 @@ extension SnapshotTest {
     ///   - testName: Name of the test function
     ///   - precision: Precision for snapshot comparison
     ///   - nameAddition: Optional addition to snapshot name
+    @MainActor
     public func device(
         _ viewController: UIViewController,
         testDynamicSize: Bool = true,

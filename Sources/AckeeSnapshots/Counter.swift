@@ -20,22 +20,30 @@ final class Counter {
     }
 }
 
-/// Reset timer between tests
-class CleanCounterBetweenTestCases: NSObject, XCTestObservation {
-    private static var registered = false
+@MainActor
+final class CleanCounterBetweenTestCases: NSObject { }
 
-    static func registerIfNeeded() {
-        guard !registered else { return }
-        defer { registered = true }
-        Task {@MainActor in
-            XCTestObservationCenter.shared.addTestObserver(CleanCounterBetweenTestCases())
+extension CleanCounterBetweenTestCases: XCTestObservation {
+    // Reset timer between tests
+    nonisolated func testCaseDidFinish(_ testCase: XCTestCase) {
+        Task { @MainActor in
+            snapshotCounter.reset()
         }
-    }
-
-    func testCaseDidFinish(_ testCase: XCTestCase) {
-        snapshotCounter.reset()
     }
 }
 
+extension CleanCounterBetweenTestCases {
+    nonisolated static func registerIfNeeded() {
+        _ = registrationToken
+    }
+    
+    nonisolated private static let registrationToken: Void = {
+        Task { @MainActor in
+            XCTestObservationCenter.shared.addTestObserver(CleanCounterBetweenTestCases())
+        }
+    }()
+}
+
 // Singleton instance of the counter, like in Swift-snapshot-testing
+@MainActor
 let snapshotCounter = Counter()

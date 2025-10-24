@@ -17,6 +17,7 @@ extension SnapshotTest {
     ///   - testName: Name of the test function
     ///   - precision: Precision for snapshot comparison
     ///   - nameAddition: Optional addition to snapshot name
+    @MainActor
     public func layout<View: SwiftUI.View>(
         _ view: View,
         testDynamicSize: Bool = true,
@@ -70,6 +71,7 @@ extension SnapshotTest {
     ///   - testName: Name of the test function
     ///   - precision: Precision for snapshot comparison
     ///   - nameAddition: Optional addition to snapshot name
+    @MainActor
     public func component<View: SwiftUI.View>(
         _ view: View,
         testDynamicSize: Bool = true,
@@ -108,6 +110,7 @@ extension SnapshotTest {
     ///   - testName: Name of the test function
     ///   - precision: Precision for snapshot comparison
     ///   - nameAddition: Optional addition to snapshot name
+    @MainActor
     public func devices<View: SwiftUI.View>(
         _ view: View,
         testDynamicSize: Bool = true,
@@ -149,6 +152,7 @@ extension SnapshotTest {
     ///   - testName: Name of the test function
     ///   - precision: Precision for snapshot comparison
     ///   - nameAddition: Optional addition to snapshot name
+    @MainActor
     public func device<View: SwiftUI.View>(
         _ view: View,
         testDynamicSize: Bool = true,
@@ -183,6 +187,7 @@ extension SnapshotTest {
         )
     }
 
+    @MainActor
     private func assertDevices<View: SwiftUI.View>(
         _ view: View,
         testDynamicSize: Bool,
@@ -217,6 +222,7 @@ extension SnapshotTest {
         }
     }
 
+    @MainActor
     private func assertDevice<View: SwiftUI.View>(
         _ view: View,
         testDynamicSize: Bool,
@@ -259,6 +265,7 @@ extension SnapshotTest {
         )
     }
 
+    @MainActor
     private func assertDynamicTypes<View: SwiftUI.View>(
         _ view: View,
         testDynamicSize: Bool,
@@ -304,6 +311,7 @@ extension SnapshotTest {
         }
     }
 
+    @MainActor
     private func assertColorSchemes<View: SwiftUI.View>(
         _ view: View,
         record: Bool?,
@@ -341,6 +349,7 @@ extension SnapshotTest {
         }
     }
 
+    @MainActor
     private func assertUIVariants<View: SwiftUI.View>(
         _ view: View,
         testDynamicSize: Bool,

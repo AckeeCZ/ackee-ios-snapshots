@@ -66,6 +66,7 @@ public struct SnapshotTest {
     }
 
     /// Shared assertion logic for any view type
+    @MainActor
     func assertAny<Subject, Format>(
         _ subject: Subject,
         record: Bool?,
@@ -89,6 +90,7 @@ public struct SnapshotTest {
         )
     }
 
+    @MainActor
     private func getSnapshotName(
         file: StaticString,
         testName: String,

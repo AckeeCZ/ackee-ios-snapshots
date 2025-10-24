@@ -2,6 +2,7 @@ import SnapshotTesting
 import UIKit
 
 /// Represents various devices used for snapshot testing.
+@MainActor
 public enum SnapshotDevice {
     public static let iPhone8 = SnapshotDevice.iPhone8(.portrait)
     public static let iPhone8Plus = SnapshotDevice.iPhone8Plus(.portrait)
