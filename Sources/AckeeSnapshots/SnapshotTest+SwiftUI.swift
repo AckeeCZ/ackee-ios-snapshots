@@ -26,7 +26,7 @@ extension SnapshotTest {
         wait: TimeInterval = 0,
         displayScale: CGFloat? = nil,
         line: UInt = #line,
-        file: StaticString = #file,
+        file: StaticString = #filePath,
         testName: String = #function,
         precision: Double = 1.0,
         nameAddition: String? = nil
@@ -79,7 +79,7 @@ extension SnapshotTest {
         wait: TimeInterval = 0,
         displayScale: CGFloat? = nil,
         line: UInt = #line,
-        file: StaticString = #file,
+        file: StaticString = #filePath,
         testName: String = #function,
         precision: Double = 1.0,
         nameAddition: String? = nil
@@ -119,7 +119,7 @@ extension SnapshotTest {
         scrollViewMultiplier: Double? = nil,
         displayScale: CGFloat? = nil,
         line: UInt = #line,
-        file: StaticString = #file,
+        file: StaticString = #filePath,
         testName: String = #function,
         precision: Double = 1.0,
         nameAddition: String? = nil
@@ -162,7 +162,7 @@ extension SnapshotTest {
         scrollViewMultiplier: Double? = nil,
         displayScale: CGFloat? = nil,
         line: UInt = #line,
-        file: StaticString = #file,
+        file: StaticString = #filePath,
         testName: String = #function,
         precision: Double = 1.0,
         nameAddition: String? = nil
