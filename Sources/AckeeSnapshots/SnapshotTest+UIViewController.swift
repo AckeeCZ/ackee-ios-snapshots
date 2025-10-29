@@ -98,6 +98,7 @@ extension SnapshotTest {
                     strategy: strategy,
                     deviceName: device.name,
                     name: colorScheme.name,
+                    nameAddition: nameAddition,
                     file: file,
                     testName: testName,
                     line: line
@@ -130,6 +131,7 @@ extension SnapshotTest {
                 strategy: strategy,
                 deviceName: device.name,
                 name: contentSize.name,
+                nameAddition: nameAddition,
                 file: file,
                 testName: testName,
                 line: line

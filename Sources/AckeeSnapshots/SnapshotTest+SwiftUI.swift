@@ -314,7 +314,8 @@ extension SnapshotTest {
                 precision: precision,
                 strategy: strategy,
                 deviceName: deviceName,
-                name: combineName(contentSize.name, nameAddition),
+                name: contentSize.name,
+                nameAddition: nameAddition,
                 file: file,
                 testName: testName,
                 line: line
@@ -353,7 +354,8 @@ extension SnapshotTest {
                 precision: precision,
                 strategy: strategy,
                 deviceName: deviceName,
-                name: combineName(interfaceStyle.name, nameAddition),
+                name: interfaceStyle.name,
+                nameAddition: nameAddition,
                 file: file,
                 testName: testName,
                 line: line
@@ -405,7 +407,8 @@ extension SnapshotTest {
                 precision: precision,
                 strategy: strategy,
                 deviceName: "",
-                name: combineName(name, nameAddition),
+                name: name,
+                nameAddition: nameAddition,
                 file: file,
                 testName: testName,
                 line: line
@@ -431,13 +434,5 @@ extension SnapshotTest {
             default: (.medium, size.name)
             }
         }
-    }
-    
-    private func combineName(_ base: String, _ addition: String?) -> String {
-        if let addition {
-            return "\(base)_\(addition)"
-        }
-        
-        return base
     }
 }
