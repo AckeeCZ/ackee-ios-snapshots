@@ -41,7 +41,8 @@ extension SnapshotTest {
                 displayScale: displayScale,
                 file: file,
                 testName: testName,
-                line: line
+                line: line,
+                nameAddition: nameAddition
             )
         }
 
@@ -55,7 +56,8 @@ extension SnapshotTest {
             displayScale: displayScale,
             file: file,
             testName: testName,
-            line: line
+            line: line,
+            nameAddition: nameAddition
         )
     }
 
@@ -93,7 +95,8 @@ extension SnapshotTest {
             displayScale: displayScale,
             file: file,
             testName: testName,
-            line: line
+            line: line,
+            nameAddition: nameAddition
         )
     }
 
@@ -134,7 +137,8 @@ extension SnapshotTest {
             displayScale: displayScale,
             file: file,
             testName: testName,
-            line: line
+            line: line,
+            nameAddition: nameAddition
         )
     }
 
@@ -183,7 +187,8 @@ extension SnapshotTest {
             displayScale: displayScale,
             file: file,
             testName: testName,
-            line: line
+            line: line,
+            nameAddition: nameAddition
         )
     }
 
@@ -198,7 +203,8 @@ extension SnapshotTest {
         displayScale: CGFloat?,
         file: StaticString,
         testName: String,
-        line: UInt
+        line: UInt,
+        nameAddition: String?
     ) {
         let devices: [SnapshotDevice] = if let scrollViewMultiplier {
             devices + [SnapshotDevice.snapshotLongDevice(scrollViewMultiplier, device: devices.first)]
@@ -217,7 +223,8 @@ extension SnapshotTest {
                 displayScale: displayScale,
                 file: file,
                 testName: testName,
-                line: line
+                line: line,
+                nameAddition: nameAddition
             )
         }
     }
@@ -233,7 +240,8 @@ extension SnapshotTest {
         displayScale: CGFloat?,
         file: StaticString,
         testName: String,
-        line: UInt
+        line: UInt,
+        nameAddition: String?
     ) {
         if colorSchemes.count > 1 {
             assertColorSchemes(
@@ -246,7 +254,8 @@ extension SnapshotTest {
                 displayScale: displayScale,
                 file: file,
                 testName: testName,
-                line: line
+                line: line,
+                nameAddition: nameAddition
             )
         }
 
@@ -261,7 +270,8 @@ extension SnapshotTest {
             displayScale: displayScale,
             file: file,
             testName: testName,
-            line: line
+            line: line,
+            nameAddition: nameAddition
         )
     }
 
@@ -277,7 +287,8 @@ extension SnapshotTest {
         displayScale scaleParam: CGFloat?,
         file: StaticString,
         testName: String,
-        line: UInt
+        line: UInt,
+        nameAddition: String?
     ) {
         let sizes: any Collection<SnapshotContentSize> = if testDynamicSize {
             contentSizes
@@ -303,7 +314,7 @@ extension SnapshotTest {
                 precision: precision,
                 strategy: strategy,
                 deviceName: deviceName,
-                name: contentSize.name,
+                name: combineName(contentSize.name, nameAddition),
                 file: file,
                 testName: testName,
                 line: line
@@ -322,7 +333,8 @@ extension SnapshotTest {
         displayScale scaleParam: CGFloat?,
         file: StaticString,
         testName: String,
-        line: UInt
+        line: UInt,
+        nameAddition: String?
     ) {
         colorSchemes.forEach { interfaceStyle in
             let strategy = Snapshotting<View, UIImage>.image(
@@ -341,7 +353,7 @@ extension SnapshotTest {
                 precision: precision,
                 strategy: strategy,
                 deviceName: deviceName,
-                name: interfaceStyle.name,
+                name: combineName(interfaceStyle.name, nameAddition),
                 file: file,
                 testName: testName,
                 line: line
@@ -359,7 +371,8 @@ extension SnapshotTest {
         displayScale scaleParam: CGFloat?,
         file: StaticString,
         testName: String,
-        line: UInt
+        line: UInt,
+        nameAddition: String?
     ) {
         typealias FixedDynamicView = ModifiedContent<ModifiedContent<View, _EnvironmentKeyWritingModifier<DynamicTypeSize>>, _FixedSizeLayout>
 
@@ -392,7 +405,7 @@ extension SnapshotTest {
                 precision: precision,
                 strategy: strategy,
                 deviceName: "",
-                name: name,
+                name: combineName(name, nameAddition),
                 file: file,
                 testName: testName,
                 line: line
@@ -418,5 +431,13 @@ extension SnapshotTest {
             default: (.medium, size.name)
             }
         }
+    }
+    
+    private func combineName(_ base: String, _ addition: String?) -> String {
+        if let addition {
+            return "\(base)_\(addition)"
+        }
+        
+        return base
     }
 }
