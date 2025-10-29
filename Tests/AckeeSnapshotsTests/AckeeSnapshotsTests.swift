@@ -66,6 +66,15 @@ struct AckeeSnapshotsTests {
             nameAddition: "dir_\(isRTL ? "rtl" : "ltr")_\(localeID)"
         )
     }
+    
+    @Test("SwiftUI - name sanitization")
+    func swiftUI_name_sanitization() {
+        snapshotTest.component(
+            DemoSwiftUIView(),
+            testDynamicSize: false,
+            nameAddition: "!@#" // Non word characters (regex W+) won't appear in the snapshot path
+        )
+    }
 }
 
 // MARK: - Helpers
