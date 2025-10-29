@@ -43,6 +43,29 @@ struct AckeeSnapshotsTests {
     func uiviewController_devices() {
         snapshotTest.devices(DemoViewController(), scrollViewMultiplier: 2)
     }
+    
+    @Test("SwiftUI – layout direction (name addition)", arguments: ["en_US", "ar"])
+    func swiftUI_layout_direction(_ localeID: String) {
+        let isRTL = (localeID == "ar")
+        
+        let view = HStack(spacing: 8) {
+            Image(systemName: "chevron.forward")
+            DemoSwiftUIView()
+            Spacer()
+            Text("Next")
+        }
+            .frame(width: 260)
+            .padding(.leading, 24)
+            .padding(.trailing, 4)
+            .environment(\.locale, Locale(identifier: localeID))
+            .environment(\.layoutDirection, isRTL ? .rightToLeft : .leftToRight)
+        
+        snapshotTest.component(
+            view,
+            testDynamicSize: false,
+            nameAddition: "dir_\(isRTL ? "rtl" : "ltr")_\(localeID)"
+        )
+    }
 }
 
 // MARK: - Helpers
