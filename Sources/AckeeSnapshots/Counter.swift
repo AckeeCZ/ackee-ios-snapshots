@@ -20,7 +20,6 @@ final class Counter {
     }
 }
 
-@MainActor
 final class CleanCounterBetweenTestCases: NSObject { }
 
 extension CleanCounterBetweenTestCases: XCTestObservation {
