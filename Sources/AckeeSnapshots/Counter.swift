@@ -24,7 +24,7 @@ final class CleanCounterBetweenTestCases: NSObject { }
 
 extension CleanCounterBetweenTestCases: XCTestObservation {
     // Reset timer between tests
-    nonisolated func testCaseDidFinish(_ testCase: XCTestCase) {
+    func testCaseDidFinish(_ testCase: XCTestCase) {
         Task { @MainActor in
             snapshotCounter.reset()
         }
@@ -32,11 +32,11 @@ extension CleanCounterBetweenTestCases: XCTestObservation {
 }
 
 extension CleanCounterBetweenTestCases {
-    nonisolated static func registerIfNeeded() {
+    static func registerIfNeeded() {
         _ = registrationToken
     }
     
-    nonisolated private static let registrationToken: Void = {
+    private static let registrationToken: Void = {
         Task { @MainActor in
             XCTestObservationCenter.shared.addTestObserver(CleanCounterBetweenTestCases())
         }
