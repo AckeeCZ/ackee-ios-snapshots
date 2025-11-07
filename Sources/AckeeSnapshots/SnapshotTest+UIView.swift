@@ -15,6 +15,7 @@ extension SnapshotTest {
     ///   - testName: Name of the test function
     ///   - precision: Precision for snapshot comparison
     ///   - nameAddition: Optional addition to snapshot name
+    @MainActor
     public func devices(
         _ view: UIView,
         testDynamicSize: Bool = true,
@@ -23,7 +24,7 @@ extension SnapshotTest {
         scrollViewMultiplier: Double? = nil,
         displayScale: CGFloat? = nil,
         line: UInt = #line,
-        file: StaticString = #file,
+        file: StaticString = #filePath,
         testName: String = #function,
         precision: Double = 1.0,
         nameAddition: String? = nil
@@ -64,6 +65,7 @@ extension SnapshotTest {
     ///   - testName: Name of the test function
     ///   - precision: Precision for snapshot comparison
     ///   - nameAddition: Optional addition to snapshot name
+    @MainActor
     public func device(
         _ view: UIView,
         testDynamicSize: Bool = true,
@@ -72,7 +74,7 @@ extension SnapshotTest {
         wait: TimeInterval = 0,
         displayScale: CGFloat? = nil,
         line: UInt = #line,
-        file: StaticString = #file,
+        file: StaticString = #filePath,
         testName: String = #function,
         precision: Double = 1.0,
         nameAddition: String? = nil
@@ -97,6 +99,7 @@ extension SnapshotTest {
                     strategy: strategy,
                     deviceName: device.name,
                     name: colorScheme.name,
+                    nameAddition: nameAddition,
                     file: file,
                     testName: testName,
                     line: line
@@ -130,6 +133,7 @@ extension SnapshotTest {
                 strategy: strategy,
                 deviceName: device.name,
                 name: contentSize.name,
+                nameAddition: nameAddition,
                 file: file,
                 testName: testName,
                 line: line
@@ -149,6 +153,7 @@ extension SnapshotTest {
     ///   - testName: Name of the test function
     ///   - precision: Precision for snapshot comparison
     ///   - nameAddition: Optional addition to snapshot name
+    @MainActor
     public func component(
         _ view: UIView,
         size: CGSize? = nil,
@@ -157,7 +162,7 @@ extension SnapshotTest {
         wait: TimeInterval = 0,
         displayScale: CGFloat? = nil,
         line: UInt = #line,
-        file: StaticString = #file,
+        file: StaticString = #filePath,
         testName: String = #function,
         precision: Double = 1.0,
         nameAddition: String? = nil
@@ -192,6 +197,7 @@ extension SnapshotTest {
                 strategy: strategy,
                 deviceName: "",
                 name: contentSize.name,
+                nameAddition: nameAddition,
                 file: file,
                 testName: testName,
                 line: line

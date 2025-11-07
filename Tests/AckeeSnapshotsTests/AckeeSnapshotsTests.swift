@@ -5,6 +5,7 @@ import UIKit
 
 // MARK: - Configure snapshot test settings
 
+@MainActor
 let snapshotTest = SnapshotTest(
     devices: [.iPhone13ProMax, .iPadMini],
     record: false,
@@ -41,6 +42,38 @@ struct AckeeSnapshotsTests {
     @Test("UIKit view controller with multiple devices")
     func uiviewController_devices() {
         snapshotTest.devices(DemoViewController(), scrollViewMultiplier: 2)
+    }
+    
+    @Test("SwiftUI – layout direction (name addition)", arguments: ["en_US", "ar"])
+    func swiftUI_layout_direction(_ localeID: String) {
+        let isRTL = (localeID == "ar")
+        
+        let view = HStack(spacing: 8) {
+            Image(systemName: "chevron.forward")
+            DemoSwiftUIView()
+            Spacer()
+            Text("Next")
+        }
+            .frame(width: 260)
+            .padding(.leading, 24)
+            .padding(.trailing, 4)
+            .environment(\.locale, Locale(identifier: localeID))
+            .environment(\.layoutDirection, isRTL ? .rightToLeft : .leftToRight)
+        
+        snapshotTest.component(
+            view,
+            testDynamicSize: false,
+            nameAddition: "dir_\(isRTL ? "rtl" : "ltr")_\(localeID)"
+        )
+    }
+    
+    @Test("SwiftUI - name sanitization")
+    func swiftUI_name_sanitization() {
+        snapshotTest.component(
+            DemoSwiftUIView(),
+            testDynamicSize: false,
+            nameAddition: "!@#" // Non word characters (regex W+) won't appear in the snapshot path
+        )
     }
 }
 

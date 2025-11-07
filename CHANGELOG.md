@@ -8,6 +8,8 @@
 
 ## Next
 
+- Update the package to Swift 6.2 (#15, kudos to @dede64)
+- Fix nameAddition parameter, which did not work (#15, kudos to @dede64)
 - Fix colorScheme is not applied on size and component snapshots (#13, kudos to @komkovla)
 - Fix counter not being reset between test cases (#12, kudos to @komkovla)
 

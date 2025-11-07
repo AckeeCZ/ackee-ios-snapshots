@@ -66,6 +66,7 @@ public struct SnapshotTest {
     }
 
     /// Shared assertion logic for any view type
+    @MainActor
     func assertAny<Subject, Format>(
         _ subject: Subject,
         record: Bool?,
@@ -74,6 +75,7 @@ public struct SnapshotTest {
         strategy: Snapshotting<Subject, Format>,
         deviceName: String = "",
         name: String = "",
+        nameAddition: String? = nil,
         file: StaticString,
         testName: String,
         line: UInt
@@ -81,7 +83,7 @@ public struct SnapshotTest {
         assertSnapshot(
             of: subject,
             as: wait > 0 ? .wait(for: wait, on: strategy) : strategy,
-            named: getSnapshotName(file: file, testName: testName, deviceName: deviceName, name: name),
+            named: getSnapshotName(file: file, testName: testName, deviceName: deviceName, name: name, nameAddition: nameAddition),
             record: record ?? self.record,
             file: file,
             testName: testName,
@@ -89,17 +91,30 @@ public struct SnapshotTest {
         )
     }
 
+    @MainActor
     private func getSnapshotName(
         file: StaticString,
         testName: String,
         deviceName: String,
-        name: String
+        name: String,
+        nameAddition: String?
     ) -> String {
         let filePath = "\(file)"
-        let keyBaseParts: [String] = [filePath, testName, deviceName, name].compactMap { $0.isEmpty ? nil : $0 }
+        let keyBaseParts: [String] = [filePath, testName, deviceName, name, nameAddition]
+            .compactMap { $0 }
+            .filter { !$0.isEmpty }
+        
         let counterKey = keyBaseParts.joined(separator: "_")
         let snapshotIndex = snapshotCounter.next(for: counterKey)
-        let nameComponents = snapshotIndex == 0 ? [deviceName, name] : [deviceName, name, "\(snapshotIndex)"]
-        return (nameComponents.compactMap { $0.isEmpty ? nil : $0 }.joined(separator: "_"))
+        let nameComponents = snapshotIndex == 0 ? [deviceName, name, nameAddition] : [deviceName, name, nameAddition, "\(snapshotIndex)"]
+        let combinedName = (nameComponents.compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: "_"))
+        
+        return sanitizePathComponent(combinedName)
+    }
+    
+    func sanitizePathComponent(_ string: String) -> String {
+        string
+            .replacingOccurrences(of: "\\W+", with: "-", options: .regularExpression)
+            .replacingOccurrences(of: "^-|-$", with: "", options: .regularExpression)
     }
 }

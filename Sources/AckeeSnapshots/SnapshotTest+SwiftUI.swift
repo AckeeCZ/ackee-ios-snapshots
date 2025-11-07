@@ -17,6 +17,7 @@ extension SnapshotTest {
     ///   - testName: Name of the test function
     ///   - precision: Precision for snapshot comparison
     ///   - nameAddition: Optional addition to snapshot name
+    @MainActor
     public func layout<View: SwiftUI.View>(
         _ view: View,
         testDynamicSize: Bool = true,
@@ -25,7 +26,7 @@ extension SnapshotTest {
         wait: TimeInterval = 0,
         displayScale: CGFloat? = nil,
         line: UInt = #line,
-        file: StaticString = #file,
+        file: StaticString = #filePath,
         testName: String = #function,
         precision: Double = 1.0,
         nameAddition: String? = nil
@@ -40,7 +41,8 @@ extension SnapshotTest {
                 displayScale: displayScale,
                 file: file,
                 testName: testName,
-                line: line
+                line: line,
+                nameAddition: nameAddition
             )
         }
 
@@ -54,7 +56,8 @@ extension SnapshotTest {
             displayScale: displayScale,
             file: file,
             testName: testName,
-            line: line
+            line: line,
+            nameAddition: nameAddition
         )
     }
 
@@ -70,6 +73,7 @@ extension SnapshotTest {
     ///   - testName: Name of the test function
     ///   - precision: Precision for snapshot comparison
     ///   - nameAddition: Optional addition to snapshot name
+    @MainActor
     public func component<View: SwiftUI.View>(
         _ view: View,
         testDynamicSize: Bool = true,
@@ -77,7 +81,7 @@ extension SnapshotTest {
         wait: TimeInterval = 0,
         displayScale: CGFloat? = nil,
         line: UInt = #line,
-        file: StaticString = #file,
+        file: StaticString = #filePath,
         testName: String = #function,
         precision: Double = 1.0,
         nameAddition: String? = nil
@@ -91,7 +95,8 @@ extension SnapshotTest {
             displayScale: displayScale,
             file: file,
             testName: testName,
-            line: line
+            line: line,
+            nameAddition: nameAddition
         )
     }
 
@@ -108,6 +113,7 @@ extension SnapshotTest {
     ///   - testName: Name of the test function
     ///   - precision: Precision for snapshot comparison
     ///   - nameAddition: Optional addition to snapshot name
+    @MainActor
     public func devices<View: SwiftUI.View>(
         _ view: View,
         testDynamicSize: Bool = true,
@@ -116,7 +122,7 @@ extension SnapshotTest {
         scrollViewMultiplier: Double? = nil,
         displayScale: CGFloat? = nil,
         line: UInt = #line,
-        file: StaticString = #file,
+        file: StaticString = #filePath,
         testName: String = #function,
         precision: Double = 1.0,
         nameAddition: String? = nil
@@ -131,7 +137,8 @@ extension SnapshotTest {
             displayScale: displayScale,
             file: file,
             testName: testName,
-            line: line
+            line: line,
+            nameAddition: nameAddition
         )
     }
 
@@ -149,6 +156,7 @@ extension SnapshotTest {
     ///   - testName: Name of the test function
     ///   - precision: Precision for snapshot comparison
     ///   - nameAddition: Optional addition to snapshot name
+    @MainActor
     public func device<View: SwiftUI.View>(
         _ view: View,
         testDynamicSize: Bool = true,
@@ -158,7 +166,7 @@ extension SnapshotTest {
         scrollViewMultiplier: Double? = nil,
         displayScale: CGFloat? = nil,
         line: UInt = #line,
-        file: StaticString = #file,
+        file: StaticString = #filePath,
         testName: String = #function,
         precision: Double = 1.0,
         nameAddition: String? = nil
@@ -179,10 +187,12 @@ extension SnapshotTest {
             displayScale: displayScale,
             file: file,
             testName: testName,
-            line: line
+            line: line,
+            nameAddition: nameAddition
         )
     }
 
+    @MainActor
     private func assertDevices<View: SwiftUI.View>(
         _ view: View,
         testDynamicSize: Bool,
@@ -193,7 +203,8 @@ extension SnapshotTest {
         displayScale: CGFloat?,
         file: StaticString,
         testName: String,
-        line: UInt
+        line: UInt,
+        nameAddition: String?
     ) {
         let devices: [SnapshotDevice] = if let scrollViewMultiplier {
             devices + [SnapshotDevice.snapshotLongDevice(scrollViewMultiplier, device: devices.first)]
@@ -212,11 +223,13 @@ extension SnapshotTest {
                 displayScale: displayScale,
                 file: file,
                 testName: testName,
-                line: line
+                line: line,
+                nameAddition: nameAddition
             )
         }
     }
 
+    @MainActor
     private func assertDevice<View: SwiftUI.View>(
         _ view: View,
         testDynamicSize: Bool,
@@ -227,7 +240,8 @@ extension SnapshotTest {
         displayScale: CGFloat?,
         file: StaticString,
         testName: String,
-        line: UInt
+        line: UInt,
+        nameAddition: String?
     ) {
         if colorSchemes.count > 1 {
             assertColorSchemes(
@@ -240,7 +254,8 @@ extension SnapshotTest {
                 displayScale: displayScale,
                 file: file,
                 testName: testName,
-                line: line
+                line: line,
+                nameAddition: nameAddition
             )
         }
 
@@ -255,10 +270,12 @@ extension SnapshotTest {
             displayScale: displayScale,
             file: file,
             testName: testName,
-            line: line
+            line: line,
+            nameAddition: nameAddition
         )
     }
 
+    @MainActor
     private func assertDynamicTypes<View: SwiftUI.View>(
         _ view: View,
         testDynamicSize: Bool,
@@ -270,7 +287,8 @@ extension SnapshotTest {
         displayScale scaleParam: CGFloat?,
         file: StaticString,
         testName: String,
-        line: UInt
+        line: UInt,
+        nameAddition: String?
     ) {
         let sizes: any Collection<SnapshotContentSize> = if testDynamicSize {
             contentSizes
@@ -297,6 +315,7 @@ extension SnapshotTest {
                 strategy: strategy,
                 deviceName: deviceName,
                 name: contentSize.name,
+                nameAddition: nameAddition,
                 file: file,
                 testName: testName,
                 line: line
@@ -304,6 +323,7 @@ extension SnapshotTest {
         }
     }
 
+    @MainActor
     private func assertColorSchemes<View: SwiftUI.View>(
         _ view: View,
         record: Bool?,
@@ -314,7 +334,8 @@ extension SnapshotTest {
         displayScale scaleParam: CGFloat?,
         file: StaticString,
         testName: String,
-        line: UInt
+        line: UInt,
+        nameAddition: String?
     ) {
         colorSchemes.forEach { interfaceStyle in
             let strategy = Snapshotting<View, UIImage>.image(
@@ -334,6 +355,7 @@ extension SnapshotTest {
                 strategy: strategy,
                 deviceName: deviceName,
                 name: interfaceStyle.name,
+                nameAddition: nameAddition,
                 file: file,
                 testName: testName,
                 line: line
@@ -341,6 +363,7 @@ extension SnapshotTest {
         }
     }
 
+    @MainActor
     private func assertUIVariants<View: SwiftUI.View>(
         _ view: View,
         testDynamicSize: Bool,
@@ -350,7 +373,8 @@ extension SnapshotTest {
         displayScale scaleParam: CGFloat?,
         file: StaticString,
         testName: String,
-        line: UInt
+        line: UInt,
+        nameAddition: String?
     ) {
         typealias FixedDynamicView = ModifiedContent<ModifiedContent<View, _EnvironmentKeyWritingModifier<DynamicTypeSize>>, _FixedSizeLayout>
 
@@ -384,6 +408,7 @@ extension SnapshotTest {
                 strategy: strategy,
                 deviceName: "",
                 name: name,
+                nameAddition: nameAddition,
                 file: file,
                 testName: testName,
                 line: line
