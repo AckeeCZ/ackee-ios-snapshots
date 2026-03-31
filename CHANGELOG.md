@@ -8,6 +8,7 @@
 
 ## Next
 
+- Add configurable `drawHierarchyInKeyWindow` parameter for UIView and SwiftUI snapshots (#16, kudos to @komkovla)
 - Update the package to Swift 6.2 (#15, kudos to @dede64)
 - Fix nameAddition parameter, which did not work (#15, kudos to @dede64)
 - Fix colorScheme is not applied on size and component snapshots (#13, kudos to @komkovla)
