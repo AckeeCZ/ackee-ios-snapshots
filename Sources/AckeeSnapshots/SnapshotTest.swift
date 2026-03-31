@@ -37,6 +37,7 @@ public struct SnapshotTest {
     let devices: [SnapshotDevice]
     let record: Bool
     let displayScale: CGFloat?
+    let drawHierarchyInKeyWindow: Bool
     let contentSizes: any Collection<SnapshotContentSize>
     let colorSchemes: any Collection<SnapshotColorScheme>
 
@@ -53,11 +54,13 @@ public struct SnapshotTest {
         record: Bool,
         displayScale: CGFloat?,
         contentSizes: any Collection<SnapshotContentSize>,
-        colorSchemes: any Collection<SnapshotColorScheme>
+        colorSchemes: any Collection<SnapshotColorScheme>,
+        drawHierarchyInKeyWindow: Bool = false
     ) {
         self.devices = devices
         self.record = record
         self.displayScale = displayScale
+        self.drawHierarchyInKeyWindow = drawHierarchyInKeyWindow
         self.contentSizes = contentSizes
         self.colorSchemes = colorSchemes
 

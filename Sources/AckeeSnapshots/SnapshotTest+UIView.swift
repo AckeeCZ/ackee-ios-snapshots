@@ -23,6 +23,7 @@ extension SnapshotTest {
         wait: TimeInterval = 0,
         scrollViewMultiplier: Double? = nil,
         displayScale: CGFloat? = nil,
+        drawHierarchyInKeyWindow: Bool? = nil,
         line: UInt = #line,
         file: StaticString = #filePath,
         testName: String = #function,
@@ -43,6 +44,7 @@ extension SnapshotTest {
                 record: record,
                 wait: wait,
                 displayScale: displayScale,
+                drawHierarchyInKeyWindow: drawHierarchyInKeyWindow,
                 line: line,
                 file: file,
                 testName: testName,
@@ -73,16 +75,19 @@ extension SnapshotTest {
         record: Bool? = nil,
         wait: TimeInterval = 0,
         displayScale: CGFloat? = nil,
+        drawHierarchyInKeyWindow: Bool? = nil,
         line: UInt = #line,
         file: StaticString = #filePath,
         testName: String = #function,
         precision: Double = 1.0,
         nameAddition: String? = nil
     ) {
+        let drawHierarchyInKeyWindow = drawHierarchyInKeyWindow ?? self.drawHierarchyInKeyWindow
+
         if colorSchemes.count > 1 {
             colorSchemes.forEach { colorScheme in
                 let strategy = Snapshotting<UIView, UIImage>.image(
-                    drawHierarchyInKeyWindow: false,
+                    drawHierarchyInKeyWindow: drawHierarchyInKeyWindow,
                     size: device.config.size,
                     traits: .init(traitsFrom: [
                         device.config.traits,
@@ -115,7 +120,7 @@ extension SnapshotTest {
 
         sizes.forEach { contentSize in
             let strategy = Snapshotting<UIView, UIImage>.image(
-                drawHierarchyInKeyWindow: false,
+                drawHierarchyInKeyWindow: drawHierarchyInKeyWindow,
                 size: device.config.size,
                 traits: .init(traitsFrom: [
                     device.config.traits,
@@ -161,6 +166,7 @@ extension SnapshotTest {
         record: Bool? = nil,
         wait: TimeInterval = 0,
         displayScale: CGFloat? = nil,
+        drawHierarchyInKeyWindow: Bool? = nil,
         line: UInt = #line,
         file: StaticString = #filePath,
         testName: String = #function,
@@ -180,7 +186,7 @@ extension SnapshotTest {
 
         sizes.forEach { contentSize in
             let strategy = Snapshotting<UIView, UIImage>.image(
-                drawHierarchyInKeyWindow: false,
+                drawHierarchyInKeyWindow: drawHierarchyInKeyWindow ?? self.drawHierarchyInKeyWindow,
                 size: size,
                 traits: .init(traitsFrom: [
                     .init(preferredContentSizeCategory: contentSize.uiContentSizeCategory),
