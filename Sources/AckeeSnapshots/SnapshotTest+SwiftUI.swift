@@ -34,7 +34,7 @@ extension SnapshotTest {
     ) {
         let drawHierarchyInKeyWindow = drawHierarchyInKeyWindow ?? self.drawHierarchyInKeyWindow
 
-        if colorSchemes.count > 1 {
+        if colorSchemes.count > 1 || contrasts.count > 1 {
             assertColorSchemes(
                 view,
                 record: record,
@@ -259,7 +259,7 @@ extension SnapshotTest {
         line: UInt,
         nameAddition: String?
     ) {
-        if colorSchemes.count > 1 {
+        if colorSchemes.count > 1 || contrasts.count > 1 {
             assertColorSchemes(
                 view,
                 record: record,
@@ -322,6 +322,7 @@ extension SnapshotTest {
                 traits: .init(traitsFrom: [
                     .init(preferredContentSizeCategory: contentSize.uiContentSizeCategory),
                     .init(userInterfaceStyle: colorSchemes.first?.uiUserInterfaceStyle ?? .light),
+                    .init(accessibilityContrast: contrasts.first?.uiAccessibilityContrast ?? .normal),
                     (scaleParam ?? displayScale).map { .init(displayScale: $0) },
                 ].compactMap { $0 })
             )
@@ -358,28 +359,31 @@ extension SnapshotTest {
         nameAddition: String?
     ) {
         colorSchemes.forEach { interfaceStyle in
-            let strategy = Snapshotting<View, UIImage>.image(
-                drawHierarchyInKeyWindow: drawHierarchyInKeyWindow,
-                layout: layout,
-                traits: .init(traitsFrom: [
-                    .init(userInterfaceStyle: interfaceStyle.uiUserInterfaceStyle),
-                    (scaleParam ?? displayScale).map { .init(displayScale: $0) },
-                ].compactMap { $0 })
-            )
+            contrasts.forEach { contrast in
+                let strategy = Snapshotting<View, UIImage>.image(
+                    drawHierarchyInKeyWindow: drawHierarchyInKeyWindow,
+                    layout: layout,
+                    traits: .init(traitsFrom: [
+                        .init(userInterfaceStyle: interfaceStyle.uiUserInterfaceStyle),
+                        .init(accessibilityContrast: contrast.uiAccessibilityContrast),
+                        (scaleParam ?? displayScale).map { .init(displayScale: $0) },
+                    ].compactMap { $0 })
+                )
 
-            assertAny(
-                view,
-                record: record,
-                wait: wait,
-                precision: precision,
-                strategy: strategy,
-                deviceName: deviceName,
-                name: interfaceStyle.name,
-                nameAddition: nameAddition,
-                file: file,
-                testName: testName,
-                line: line
-            )
+                assertAny(
+                    view,
+                    record: record,
+                    wait: wait,
+                    precision: precision,
+                    strategy: strategy,
+                    deviceName: deviceName,
+                    name: appearanceName(colorScheme: interfaceStyle, contrast: contrast),
+                    nameAddition: nameAddition,
+                    file: file,
+                    testName: testName,
+                    line: line
+                )
+            }
         }
     }
 
@@ -411,7 +415,8 @@ extension SnapshotTest {
             traits: .init(
                 traitsFrom: [
                     (scaleParam ?? displayScale).map { .init(displayScale: $0) },
-                    .init(userInterfaceStyle: colorSchemes.first?.uiUserInterfaceStyle ?? .light)
+                    .init(userInterfaceStyle: colorSchemes.first?.uiUserInterfaceStyle ?? .light),
+                    .init(accessibilityContrast: contrasts.first?.uiAccessibilityContrast ?? .normal)
                 ].compactMap { $0 }
             )
         )
