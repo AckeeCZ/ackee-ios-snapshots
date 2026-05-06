@@ -11,7 +11,8 @@ let snapshotTest = SnapshotTest(
     record: false,
     displayScale: 1,
     contentSizes: [.large, .accessibilityExtraExtraExtraLarge],
-    colorSchemes: [.light, .dark]
+    colorSchemes: [.light, .dark],
+    contrasts: [.normal, .high]
 )
 
 // MARK: - Tests
