@@ -40,6 +40,7 @@ public struct SnapshotTest {
     let drawHierarchyInKeyWindow: Bool
     let contentSizes: any Collection<SnapshotContentSize>
     let colorSchemes: any Collection<SnapshotColorScheme>
+    let contrasts: any Collection<SnapshotContrast>
 
     // MARK: - Initializers
 
@@ -49,12 +50,14 @@ public struct SnapshotTest {
     ///   - record: Default record value
     ///   - contentSizes: Default content sizes
     ///   - colorSchemes: Default color schemes
+    ///   - contrasts: Default accessibility contrasts. Defaults to `[.normal]` to preserve existing snapshot names
     public init(
         devices: [SnapshotDevice],
         record: Bool,
         displayScale: CGFloat?,
         contentSizes: any Collection<SnapshotContentSize>,
         colorSchemes: any Collection<SnapshotColorScheme>,
+        contrasts: any Collection<SnapshotContrast> = [.normal],
         drawHierarchyInKeyWindow: Bool = false
     ) {
         self.devices = devices
@@ -63,9 +66,22 @@ public struct SnapshotTest {
         self.drawHierarchyInKeyWindow = drawHierarchyInKeyWindow
         self.contentSizes = contentSizes
         self.colorSchemes = colorSchemes
+        self.contrasts = contrasts
 
         // Register the test observer to clean counter between test cases
         CleanCounterBetweenTestCases.registerIfNeeded()
+    }
+
+    /// Composes the snapshot name suffix for a color scheme + contrast pair.
+    /// Non-`.high` contrast returns just the color scheme name to preserve
+    /// existing snapshot filenames for configurations that don't use contrast.
+    func appearanceName(colorScheme: SnapshotColorScheme, contrast: SnapshotContrast) -> String {
+        switch contrast {
+        case .high:
+            return "\(colorScheme.name)_\(contrast.name)"
+        case .normal, .unspecified:
+            return colorScheme.name
+        }
     }
 
     /// Shared assertion logic for any view type

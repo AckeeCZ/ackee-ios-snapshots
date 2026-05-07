@@ -28,6 +28,18 @@ public let assertSnapshot = SnapshotTest(
   colorSchemes: [.light, .dark]
 )
 ```
+
+If your app supports the "Increase Contrast" accessibility setting, pass `contrasts` to also snapshot every color scheme in high contrast (cartesian product of `colorSchemes × contrasts`). Defaults to `[.normal]`, so existing configurations are unaffected:
+```swift
+public let assertSnapshot = SnapshotTest(
+  devices: [.iPhone13ProMax],
+  record: false,
+  displayScale: 1,
+  contentSizes: [.large],
+  colorSchemes: [.light, .dark],
+  contrasts: [.normal, .high]
+)
+```
 And in your test use assert method of your choice:
 ```swift
 import AppTesting

@@ -79,30 +79,33 @@ extension SnapshotTest {
         precision: Double = 1.0,
         nameAddition: String? = nil
     ) {
-        if colorSchemes.count > 1 {
+        if colorSchemes.count > 1 || contrasts.count > 1 {
             colorSchemes.forEach { colorScheme in
-                let strategy = Snapshotting<UIViewController, UIImage>.image(
-                    on: device.config,
-                    perceptualPrecision: Float(precision),
-                    traits: .init(traitsFrom: [
-                        .init(userInterfaceStyle: colorScheme.uiUserInterfaceStyle),
-                        (displayScale ?? self.displayScale).map { .init(displayScale: $0) },
-                    ].compactMap { $0 })
-                )
+                contrasts.forEach { contrast in
+                    let strategy = Snapshotting<UIViewController, UIImage>.image(
+                        on: device.config,
+                        perceptualPrecision: Float(precision),
+                        traits: .init(traitsFrom: [
+                            .init(userInterfaceStyle: colorScheme.uiUserInterfaceStyle),
+                            .init(accessibilityContrast: contrast.uiAccessibilityContrast),
+                            (displayScale ?? self.displayScale).map { .init(displayScale: $0) },
+                        ].compactMap { $0 })
+                    )
 
-                assertAny(
-                    viewController,
-                    record: record,
-                    wait: wait,
-                    precision: precision,
-                    strategy: strategy,
-                    deviceName: device.name,
-                    name: colorScheme.name,
-                    nameAddition: nameAddition,
-                    file: file,
-                    testName: testName,
-                    line: line
-                )
+                    assertAny(
+                        viewController,
+                        record: record,
+                        wait: wait,
+                        precision: precision,
+                        strategy: strategy,
+                        deviceName: device.name,
+                        name: appearanceName(colorScheme: colorScheme, contrast: contrast),
+                        nameAddition: nameAddition,
+                        file: file,
+                        testName: testName,
+                        line: line
+                    )
+                }
             }
         }
 
@@ -119,6 +122,7 @@ extension SnapshotTest {
                 traits: .init(traitsFrom: [
                     .init(preferredContentSizeCategory: contentSize.uiContentSizeCategory),
                     .init(userInterfaceStyle: colorSchemes.first?.uiUserInterfaceStyle ?? .light),
+                    .init(accessibilityContrast: contrasts.first?.uiAccessibilityContrast ?? .normal),
                     (displayScale ?? self.displayScale).map { .init(displayScale: $0) },
                 ].compactMap { $0 })
             )
